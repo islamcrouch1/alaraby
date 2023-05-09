@@ -18,22 +18,24 @@
 
                                 <div class="z-index-1 position-relative"><a
                                         class="link-light mb-4 font-sans-serif fs-4 d-inline-block fw-bolder"
-                                        href="{{ route('front.index') }}"> <img style="width:150px"
-                                            src="{{ asset('assets/img/logo.png') }}" alt="">
+                                        href=""> <img style="width:150px" src="{{ asset('assets/img/logo.png') }}"
+                                            alt="">
                                     </a>
                                     <p class="opacity-75 text-white">
                                         {{ __('Sonoo will always have more, your time with us is always rewarded.') }}
                                     </p>
                                 </div>
                             </div>
+
                             <div class="mt-3 mb-4 mt-md-4 mb-md-5 light">
                                 <p class="text-white"> {{ __("Don't have an account?") }}<br><a
                                         class="text-decoration-underline link-light"
-                                        href="{{ route('user.register') }}">{{ __('Get started!') }}</a></p>
+                                        href="{{ route('register') }}">{{ __('Get started!') }}</a></p>
                                 <p class="mb-0 mt-4 mt-md-5 fs--1 fw-semi-bold text-white opacity-75">{{ __('Read our') }}
                                     <a class="text-decoration-underline text-white" href="#!">{{ __('terms') }}</a>
                                     {{ __('and') }} <a class="text-decoration-underline text-white"
-                                        href="#!">{{ __('conditions') }} </a></p>
+                                        href="#!">{{ __('conditions') }} </a>
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-7 d-flex flex-center">
@@ -93,9 +95,9 @@
                                                     for="card-checkbox">{{ __('Remember me') }}</label>
                                             </div>
                                         </div>
-                                        <div class="col-auto"><a class="fs--1"
+                                        {{-- <div class="col-auto"><a class="fs--1"
                                                 href="{{ route('password.reset.request') }}">{{ __('Forgot Password?') }}</a>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <div class="mb-3">
                                         <button class="btn btn-primary d-block w-100 mt-3" type="submit"
