@@ -48,7 +48,7 @@ class UserController extends Controller
             ->paginate(100);
 
 
-        return view('Dashboard.users.index', compact('users', 'roles', 'countries'));
+        return view('dashboard.users.index', compact('users', 'roles'));
     }
 
 
