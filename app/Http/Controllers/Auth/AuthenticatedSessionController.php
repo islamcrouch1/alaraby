@@ -37,15 +37,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if(auth()->user()->hasRole('superadministrator|adminstrator')){
+
+        if (auth()->user()->hasRole('superadministrator|administrator')) {
 
             return redirect()->intended(RouteServiceProvider::HOME);
-        }
-        else{
+        } else {
             return redirect()->intended(RouteServiceProvider::HOMETECH);
-
         }
-
     }
 
     /**

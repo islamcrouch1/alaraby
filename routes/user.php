@@ -5,14 +5,14 @@ use App\Http\Controllers\Dashboard\HomeController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::group(['prefix' => 'user', 'middleware' => ['role:superadministrator']], function () {
+Route::group(['prefix' => 'user', 'middleware' => ['role:superadministrator|administrator']], function () {
 
     // home view route - Dashboard
     Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
- // user routes
- Route::get('edit', [ProfileController::class, 'edit'])->name('user.edit')->middleware('auth', 'checkverified', 'checkstatus');
- Route::post('update', [ProfileController::class, 'update'])->name('user.update')->middleware('auth', 'checkverified', 'checkstatus');
+    // user routes
+    Route::get('edit', [ProfileController::class, 'edit'])->name('user.edit')->middleware('auth', 'checkverified', 'checkstatus');
+    Route::post('update', [ProfileController::class, 'update'])->name('user.update')->middleware('auth', 'checkverified', 'checkstatus');
 
     // user notification routes
     Route::get('/notification/change', [UserNotificationsController::class, 'changeStatus'])->name('notifications.change')->middleware('auth', 'checkverified', 'checkstatus');

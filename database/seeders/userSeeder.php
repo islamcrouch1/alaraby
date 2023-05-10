@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Permission;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Role;
-use App\Models\User; 
+use App\Models\User;
+
 class userSeeder extends Seeder
 {
     /**
@@ -38,8 +40,20 @@ class userSeeder extends Seeder
 
         $user->attachRole($role);
 
-        
-        
-    
+        $permissions = ['roles-create', 'roles-update', 'roles-read', 'roles-delete', 'roles-trash', 'roles-restore'];
+
+        foreach ($permissions as $permission) {
+            if (Permission::where('name', $permission)->first() == null) {
+                Permission::create([
+                    'name' => $permission,
+                    'display_name' => $permission,
+                    'description' => $permission
+                ]);
+            }
+        }
+
+
+
+        $role->attachPermissions($permissions);
     }
 }
