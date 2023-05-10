@@ -23,7 +23,7 @@
         </li>
     </ul>
     <ul class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <div class="theme-control-toggle fa-icon-wait px-2">
                 <a style="text-decoration: none" href="{{ route('setlocale') }}">
                     <div
@@ -34,7 +34,7 @@
                 </a>
 
             </div>
-        </li>
+        </li> --}}
         <li class="nav-item">
             <div class="theme-control-toggle fa-icon-wait px-2">
                 <input class="form-check-input ms-0 theme-control-toggle-input" id="themeControlToggle" type="checkbox"
@@ -64,7 +64,7 @@
             </li>
         @endif
 
-        <li class="nav-item dropdown">
+        {{-- <li class="nav-item dropdown">
             <a class="nav-link notification-indicator notification-indicator-primary notification-indicator-fill px-0 fa-icon-wait"
                 id="navbarDropdownNotification" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false" data-hide-on-body-scroll="data-hide-on-body-scroll"><span class="fas fa-bell"
@@ -89,7 +89,7 @@
                             <div class="list-group-title border-bottom">NEW</div>
                             <div class="noty-list">
                                 @foreach (Auth::user()->notifications()->where('status', 0)->orderBy('id', 'desc')->limit(50)->get()
-    as $notification)
+                                as $notification)
                                     <div class="list-group-item">
                                         <a class="notification notification-flush notification-unread noty"
                                             href="{{ $notification->url }}"
@@ -160,7 +160,7 @@
             </div>
 
         </li>
-
+ --}}
 
         <li class="nav-item dropdown"><a class="nav-link pe-0 ps-2" id="navbarDropdownUser" role="button"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

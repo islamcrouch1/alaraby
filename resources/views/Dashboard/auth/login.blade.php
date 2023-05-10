@@ -22,7 +22,7 @@
                                             alt="">
                                     </a>
                                     <p class="opacity-75 text-white">
-                                        {{ __('Sonoo will always have more, your time with us is always rewarded.') }}
+                                        {{ __('') }}
                                     </p>
                                 </div>
                             </div>

@@ -22,7 +22,7 @@
                                         <img style="width:150px" src="{{ asset('assets/img/logo.png') }}" alt="">
                                     </a>
                                     <p class="opacity-75 text-white">
-                                        {{ __('Do not miss the chance.Now you can start your business without needing any capital.') }}
+                                        {{ __('.') }}
                                     </p>
 
                                 </div>
