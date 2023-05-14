@@ -69,7 +69,7 @@
     <main class="main" id="top">
         <div class="container-fluid">
 
-            @include('layouts.Dashboard._flash')
+            @include('layouts.dashboard._flash')
 
             @yield('authContent')
 

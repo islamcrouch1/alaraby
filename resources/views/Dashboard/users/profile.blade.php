@@ -1,4 +1,4 @@
-@extends('layouts.Dashboard.app')
+@extends('layouts.dashboard.app')
 
 @section('adminContent')
 
@@ -104,8 +104,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="email">Email address</label>
                                 <input class="form-control @error('email') is-invalid @enderror" type="email"
-                                    id="email" name="email" autocomplete="on" value="{{ $user->email }}"
-                                    required />
+                                    id="email" name="email" autocomplete="on" value="{{ $user->email }}" required />
                                 @error('email')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror

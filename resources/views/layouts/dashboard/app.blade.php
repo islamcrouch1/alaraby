@@ -33,16 +33,19 @@
     <script src="{{ asset('vendors/overlayscrollbars/OverlayScrollbars.min.js') }}"></script>
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MR2ZBMRC65"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MR2ZBMRC65"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'G-MR2ZBMRC65');
-</script>
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
 
-    
+        gtag('config', 'G-MR2ZBMRC65');
+    </script>
+
+
 
 
 
@@ -116,19 +119,19 @@
 
 
 
-            @include('layouts.Dashboard._aside')
+            @include('layouts.dashboard._aside')
 
 
 
             <div class="content">
 
-                @include('layouts.Dashboard._header')
+                @include('layouts.dashboard._header')
 
-                @include('layouts.Dashboard._flash')
+                @include('layouts.dashboard._flash')
 
                 @yield('adminContent')
 
-                @include('layouts.Dashboard._footer')
+                @include('layouts.dashboard._footer')
 
 
             </div>
@@ -207,7 +210,7 @@
         });
     </script>
 
-    
+
 
 
 </body>

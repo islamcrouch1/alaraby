@@ -1,4 +1,4 @@
-@extends('layouts.Dashboard.app')
+@extends('layouts.dashboard.app')
 
 @section('adminContent')
     <div class="card mb-3" id="customersTable"
@@ -78,7 +78,7 @@
                                 <div class="mb-3 col-sm-6">
                                     <label class="form-label"
                                         for="password_confirmation">{{ __('Confirm
-                                                                                                                        Password') }}</label>
+                                                                                                                                                                Password') }}</label>
                                     <input class="form-control @error('password_confirmation') is-invalid @enderror"
                                         type="password" autocomplete="on" id="password_confirmation"
                                         name="password_confirmation" required />
@@ -133,7 +133,7 @@
                             <div class="mb-3">
                                 <button class="btn btn-primary d-block w-100 mt-3" type="submit"
                                     name="submit">{{ __('Add New
-                                                                                                            User') }}</button>
+                                                                                                                                                User') }}</button>
                             </div>
                         </form>
 

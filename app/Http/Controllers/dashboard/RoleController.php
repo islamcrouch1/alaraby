@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
@@ -34,7 +34,7 @@ class RoleController extends Controller
             ->withCount('users')
             ->latest()
             ->paginate(100);
-        return view('Dashboard.roles.index')->with('roles', $roles);
+        return view('dashboard.roles.index')->with('roles', $roles);
     }
 
     /**
@@ -44,7 +44,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('Dashboard.roles.create');
+        return view('dashboard.roles.create');
     }
 
     /**
@@ -98,7 +98,7 @@ class RoleController extends Controller
     public function edit($role)
     {
         $role = Role::find($role);
-        return view('Dashboard.roles.edit')->with('role', $role);
+        return view('dashboard.roles.edit')->with('role', $role);
     }
 
     /**
@@ -161,7 +161,7 @@ class RoleController extends Controller
     public function trashed()
     {
         $roles = Role::onlyTrashed()->paginate(100);
-        return view('Dashboard.roles.index', ['roles' => $roles]);
+        return view('dashboard.roles.index', ['roles' => $roles]);
     }
 
     public function restore($role)

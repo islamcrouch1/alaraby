@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Central;
 use Carbon\Carbon;
 
 
@@ -49,6 +50,16 @@ if (!function_exists('checkUserForTrash')) {
 }
 
 
+// check user for trash
+if (!function_exists('checkCentralForTrash')) {
+    function checkCentralForTrash($central)
+    {
+        return true;
+    }
+}
+
+
+
 // check phone verification
 if (!function_exists('hasVerifiedPhone')) {
     function hasVerifiedPhone($user)
@@ -79,5 +90,15 @@ if (!function_exists('checkRoleForTrash')) {
         } else {
             return true;
         }
+    }
+}
+
+
+
+
+if (!function_exists('getCentralsCount')) {
+    function getCentralsCount()
+    {
+        return Central::all()->count();
     }
 }

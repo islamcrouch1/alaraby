@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -49,7 +49,7 @@ class UsersController extends Controller
             ->paginate(100);
 
 
-        return view('Dashboard.users.index', compact('users', 'roles'));
+        return view('dashboard.users.index', compact('users', 'roles'));
     }
 
 
@@ -63,7 +63,7 @@ class UsersController extends Controller
     public function create()
     {
         $roles = Role::WhereRoleNot(['superadministrator', 'administrator'])->get();
-        return view('Dashboard.users.create')->with('roles', $roles);
+        return view('dashboard.users.create')->with('roles', $roles);
     }
 
     /**
@@ -133,7 +133,7 @@ class UsersController extends Controller
     {
         $roles = Role::WhereRoleNot(['superadministrator', 'administrator'])->get();
         $user = User::findOrFail($user);
-        return view('Dashboard.users.edit ', compact('user', 'roles'));
+        return view('dashboard.users.edit ', compact('user', 'roles'));
     }
 
 
@@ -247,7 +247,7 @@ class UsersController extends Controller
             ->with('roles')
             ->latest()
             ->paginate(100);
-        return view('Dashboard.users.index', compact('users', 'roles'));
+        return view('dashboard.users.index', compact('users', 'roles'));
     }
 
     public function restore($user)
@@ -326,53 +326,53 @@ class UsersController extends Controller
     // public function show(User $user)
     // {
 
-        // $withdrawals = Withdrawal::where('user_id', $user->id)
-        //     ->whenSearch(request()->search)
-        //     ->whenCountry(request()->country_id)
-        //     ->whenStatus(request()->status)
-        //     ->latest()
-        //     ->paginate(50);
+    // $withdrawals = Withdrawal::where('user_id', $user->id)
+    //     ->whenSearch(request()->search)
+    //     ->whenCountry(request()->country_id)
+    //     ->whenStatus(request()->status)
+    //     ->latest()
+    //     ->paginate(50);
 
-        // $orders = Order::where('user_id', $user->id)
-        //     ->whenSearch(request()->search_order)
-        //     ->whenCountry(request()->country_id)
-        //     ->whenStatus(request()->status)
-        //     ->whenPaymentStatus(request()->payment_status)
-        //     ->latest()
-        //     ->paginate(100);
+    // $orders = Order::where('user_id', $user->id)
+    //     ->whenSearch(request()->search_order)
+    //     ->whenCountry(request()->country_id)
+    //     ->whenStatus(request()->status)
+    //     ->whenPaymentStatus(request()->payment_status)
+    //     ->latest()
+    //     ->paginate(100);
 
-        // $vendor_orders = VendorOrder::where('user_id', $user->id)
-        //     ->whenSearch(request()->search)
-        //     ->whenStatus(request()->status)
-        //     ->latest()
-        //     ->paginate(100);
+    // $vendor_orders = VendorOrder::where('user_id', $user->id)
+    //     ->whenSearch(request()->search)
+    //     ->whenStatus(request()->status)
+    //     ->latest()
+    //     ->paginate(100);
 
-        // $requests = ModelsRequest::where('user_id', $user->id)->latest()
-        //     ->paginate(50);
+    // $requests = ModelsRequest::where('user_id', $user->id)->latest()
+    //     ->paginate(50);
 
-        // $products = Product::where('vendor_id', $user->id)
-        //     ->whenSearch(request()->search)
-        //     ->whenCategory(request()->category_id)
-        //     ->whenCountry(request()->country_id)
-        //     ->whenStatus(request()->status)
-        //     ->latest()
-        //     ->paginate(100);
+    // $products = Product::where('vendor_id', $user->id)
+    //     ->whenSearch(request()->search)
+    //     ->whenCategory(request()->category_id)
+    //     ->whenCountry(request()->country_id)
+    //     ->whenStatus(request()->status)
+    //     ->latest()
+    //     ->paginate(100);
 
-        // $messages = Message::where('user_id', $user->id)
-        //     ->whenSearch(request()->search)
-        //     ->latest()
-        //     ->paginate(20);
+    // $messages = Message::where('user_id', $user->id)
+    //     ->whenSearch(request()->search)
+    //     ->latest()
+    //     ->paginate(20);
 
 
-        // $notes = Note::where('user_id', $user->id)
-        //     ->latest()
-        //     ->paginate(20);
+    // $notes = Note::where('user_id', $user->id)
+    //     ->latest()
+    //     ->paginate(20);
 
-        // $countries = Country::all();
+    // $countries = Country::all();
 
     //     $Centrals = Central::all();
 
-    //     return view('Dashboard.users.show', compact('user', 'withdrawals', 'orders', 'countries', 'vendor_orders', 'requests', 'products', 'Centrals', 'notes', 'messages'));
+    //     return view('dashboard.users.show', compact('user', 'withdrawals', 'orders', 'countries', 'vendor_orders', 'requests', 'products', 'Centrals', 'notes', 'messages'));
     // }
 
 
@@ -428,5 +428,4 @@ class UsersController extends Controller
             return back();
         }
     }
-
 }

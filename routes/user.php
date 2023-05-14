@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\Dashboard\HomeController;
+use App\Http\Controllers\dashboard\HomeController;
 
 use Illuminate\Support\Facades\Route;
 
 
 Route::group(['prefix' => 'user', 'middleware' => ['role:superadministrator|administrator']], function () {
 
-    // home view route - Dashboard
+    // home view route - dashboard
     Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
     // user routes
