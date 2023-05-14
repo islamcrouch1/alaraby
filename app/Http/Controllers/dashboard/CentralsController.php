@@ -9,36 +9,35 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 
-class CategoriesController extends Controller
+class CentralsController extends Controller
 {
     
-    {
         public function __construct()
         {
             $this->middleware('role:superadministrator|administrator');
-            $this->middleware('permission:categories-read')->only('index', 'show');
-            $this->middleware('permission:categories-create')->only('create', 'store');
-            $this->middleware('permission:categories-update')->only('edit', 'update');
-            $this->middleware('permission:categories-delete|categories-trash')->only('destroy', 'trashed');
-            $this->middleware('permission:categories-restore')->only('restore');
+            $this->middleware('permission:Centrals-read')->only('index', 'show');
+            $this->middleware('permission:Centrals-create')->only('create', 'store');
+            $this->middleware('permission:Centrals-update')->only('edit', 'update');
+            $this->middleware('permission:Centrals-delete|Centrals-trash')->only('destroy', 'trashed');
+            $this->middleware('permission:Centrals-restore')->only('restore');
         }
     
-        public function index()
-        {
-            if (!request()->has('parent_id')) {
-                request()->merge(['parent_id' => null]);
-            }
+        // public function index()
+        // {
+        //     if (!request()->has('parent_id')) {
+        //         request()->merge(['parent_id' => null]);
+        //     }
     
-            $categories = Category::whenSearch(request()->search)
+            $Centrals = Central::whenSearch(request()->search)
                 ->whenCountry(request()->country_id)
                 ->whenParent(request()->parent_id)
                 ->latest()
                 ->paginate(100);
     
-            $countries = Country::all();
+        //     $countries = Country::all();
     
-            return view('Dashboard.categories.index')->with('categories', $categories)->with('countries', $countries);
-        }
+        //     return view('Dashboard.Centrals.index')->with('Centrals', $Centrals)->with('countries', $countries);
+        // }
     
         /**
          * Show the form for creating a new resource.
@@ -48,8 +47,8 @@ class CategoriesController extends Controller
         public function create()
         {
             $countries = Country::all();
-            $categories = Category::whereNull('parent_id')->get();
-            return view('Dashboard.categories.create')->with('countries', $countries)->with('categories', $categories)->with('parent_id', request()->parent_id);
+            $Centrals = Central::whereNull('parent_id')->get();
+            return view('Dashboard.Centrals.create')->with('countries', $countries)->with('Centrals', $Centrals)->with('parent_id', request()->parent_id);
         }
     
         /**
@@ -62,33 +61,27 @@ class CategoriesController extends Controller
         {
     
             $request->validate([
-                'name_ar' => "required|string|max:255|unique:categories",
-                'name_en' => "required|string|max:255|unique:categories",
-                'image' => "required|image",
-                'description_ar' => "required|string",
-                'description_en' => "required|string",
+                'name_ar' => "required|string|max:255|unique:Centrals",
+                'name_en' => "required|string|max:255|unique:Centrals",
+               
                 'country' => "required",
                 'parent_id' => "nullable|string",
-                'profit' => "required|numeric",
+            
             ]);
     
             Image::make($request['image'])->resize(300, null, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save(public_path('storage/images/categories/' . $request['image']->hashName()), 60);
+            })->save(public_path('storage/images/Centrals/' . $request['image']->hashName()), 60);
     
-            $Category = Category::create([
+            $Central = Central::create([
                 'name_ar' => $request['name_ar'],
                 'name_en' => $request['name_en'],
-                'description_ar' => $request['description_ar'],
-                'description_en' => $request['description_en'],
-                'image' => $request['image']->hashName(),
                 'country_id' => $request['country'],
                 'parent_id' => isset($request['parent_id']) ? $request['parent_id'] : null,
-                'profit' => $request['profit'],
             ]);
     
-            alertSuccess('Category created successfully', 'تم إضافة القسم بنجاح');
-            return redirect()->route('categories.index', ['parent_id' => $request->parent_id]);
+            alertSuccess('Central created successfully', 'تم إضافة القسم بنجاح');
+            return redirect()->route('Centrals.index', ['parent_id' => $request->parent_id]);
         }
     
         /**
@@ -108,12 +101,12 @@ class CategoriesController extends Controller
          * @param  int  $id
          * @return \Illuminate\Http\Response
          */
-        public function edit($category)
+        public function edit($Central)
         {
             $countries = Country::all();
-            $category = Category::findOrFail($category);
-            $categories = Category::whereNull('parent_id')->get();
-            return view('Dashboard.categories.edit ')->with('category', $category)->with('countries', $countries)->with('categories', $categories);
+            $Central = Central::findOrFail($Central);
+            $Centrals = Central::whereNull('parent_id')->get();
+            return view('Dashboard.Centrals.edit ')->with('Central', $Central)->with('countries', $countries)->with('Centrals', $Centrals);
         }
     
         /**
@@ -123,45 +116,38 @@ class CategoriesController extends Controller
          * @param  int  $id
          * @return \Illuminate\Http\Response
          */
-        public function update(Request $request, Category $category)
+        public function update(Request $request, Central $Central)
         {
             $request->validate([
-                'name_ar' => "required|string|max:255|unique:categories,name_ar," . $category->id,
-                'name_en' => "required|string|max:255|unique:categories,name_en," . $category->id,
-                'image' => "image",
-                'description_ar' => "required|string",
-                'description_en' => "required|string",
+                'name_ar' => "required|string|max:255|unique:Centrals,name_ar," . $Central->id,
+                'name_en' => "required|string|max:255|unique:Centrals,name_en," . $Central->id,
                 'country' => "required",
                 'parent_id' => "nullable|string",
-                'profit' => "required|numeric",
             ]);
     
-            if ($request->hasFile('image')) {
-                Storage::disk('public')->delete('/images/categories/' . $category->image);
-                Image::make($request['image'])->resize(300, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(public_path('storage/images/categories/' . $request['image']->hashName()), 60);
-                $category->update([
-                    'image' => $request['image']->hashName(),
-                ]);
-            }
+            // if ($request->hasFile('image')) {
+            //     Storage::disk('public')->delete('/images/Centrals/' . $Central->image);
+            //     Image::make($request['image'])->resize(300, null, function ($constraint) {
+            //         $constraint->aspectRatio();
+            //     })->save(public_path('storage/images/Centrals/' . $request['image']->hashName()), 60);
+            //     $Central->update([
+            //         'image' => $request['image']->hashName(),
+            //     ]);
+            // }
     
-            $category->update([
+            $Central->update([
                 'name_ar' => $request['name_ar'],
                 'name_en' => $request['name_en'],
-                'description_ar' => $request['description_ar'],
-                'description_en' => $request['description_en'],
                 'country_id' => $request['country'],
                 'parent_id' => isset($request['parent_id']) ? $request['parent_id'] : null,
-                'profit' => $request['profit'],
             ]);
     
-            foreach ($category->products as $product) {
-                CalculateProductPrice($product);
-            }
+            // foreach ($Central->products as $product) {
+            //     CalculateProductPrice($product);
+            // }
     
-            alertSuccess('Category updated successfully', 'تم تعديل القسم بنجاح');
-            return redirect()->route('categories.index', ['parent_id' => $request->parent_id]);
+            alertSuccess('Central updated successfully', 'تم تعديل القسم بنجاح');
+            return redirect()->route('Centrals.index', ['parent_id' => $request->parent_id]);
         }
     
         /**
@@ -170,20 +156,20 @@ class CategoriesController extends Controller
          * @param  int  $id
          * @return \Illuminate\Http\Response
          */
-        public function destroy($category)
+        public function destroy($Central)
         {
-            $category = Category::withTrashed()->where('id', $category)->first();
-            if ($category->trashed() && auth()->user()->hasPermission('categories-delete')) {
-                Storage::disk('public')->delete('/images/categories/' . $category->image);
-                $category->forceDelete();
-                alertSuccess('category deleted successfully', 'تم حذف القسم بنجاح');
-                return redirect()->route('categories.trashed');
-            } elseif (!$category->trashed() && auth()->user()->hasPermission('categories-trash') && checkCategoryForTrash($category)) {
-                $category->delete();
-                alertSuccess('category trashed successfully', 'تم حذف القسم مؤقتا');
-                return redirect()->route('categories.index');
+            $Central = Central::withTrashed()->where('id', $Central)->first();
+            if ($Central->trashed() && auth()->user()->hasPermission('Centrals-delete')) {
+                Storage::disk('public')->delete('/images/Centrals/' . $Central->image);
+                $Central->forceDelete();
+                alertSuccess('Central deleted successfully', 'تم حذف القسم بنجاح');
+                return redirect()->route('Centrals.trashed');
+            } elseif (!$Central->trashed() && auth()->user()->hasPermission('Centrals-trash') && checkCentralForTrash($Central)) {
+                $Central->delete();
+                alertSuccess('Central trashed successfully', 'تم حذف القسم مؤقتا');
+                return redirect()->route('Centrals.index');
             } else {
-                alertError('Sorry, you do not have permission to perform this action, or the category cannot be deleted at the moment', 'نأسف ليس لديك صلاحية للقيام بهذا الإجراء ، أو القسم لا يمكن حذفه حاليا');
+                alertError('Sorry, you do not have permission to perform this action, or the Central cannot be deleted at the moment', 'نأسف ليس لديك صلاحية للقيام بهذا الإجراء ، أو القسم لا يمكن حذفه حاليا');
                 return redirect()->back();
             }
         }
@@ -191,19 +177,19 @@ class CategoriesController extends Controller
         public function trashed()
         {
             $countries = Country::all();
-            $categories = Category::onlyTrashed()
+            $Centrals = Central::onlyTrashed()
                 ->whenSearch(request()->search)
                 ->whenCountry(request()->country_id)
                 ->latest()
                 ->paginate(100);
-            return view('Dashboard.categories.index', ['categories' => $categories])->with('countries', $countries);
+            return view('Dashboard.Centrals.index', ['Centrals' => $Centrals])->with('countries', $countries);
         }
     
-        public function restore($category, Request $request)
+        public function restore($Central, Request $request)
         {
-            $category = Category::withTrashed()->where('id', $category)->first()->restore();
-            alertSuccess('Category restored successfully', 'تم استعادة القسم بنجاح');
-            return redirect()->route('categories.index', ['parent_id' => $request->parent_id]);
+            $Central = Central::withTrashed()->where('id', $Central)->first()->restore();
+            alertSuccess('Central restored successfully', 'تم استعادة القسم بنجاح');
+            return redirect()->route('Centrals.index', ['parent_id' => $request->parent_id]);
         }
     }
     

@@ -40,12 +40,13 @@
                                 <div class="d-flex align-items-center"><span class="nav-link-icon"><span
                                             class="fas fa-user"></span></span><span
                                         class="nav-link-text ps-1">{{ __('Users') }}</span>
-                                        <span class="badge badge-soft-primary">{{ \app\models\User::all()->count() - 1 }}</span>
+                                    <span
+                                        class="badge badge-soft-primary">{{ \app\models\User::all()->count() - 1 }}</span>
                                 </div>
                             </a>
                         @endif
 
-                        {{-- @if (auth()->user()->hasPermission('roles-read'))
+                        @if (auth()->user()->hasPermission('roles-read'))
                             <!-- parent pages--><a class="nav-link {{ Route::is('roles*') ? 'active' : '' }}"
                                 href="{{ route('roles.index') }}" role="button" data-bs-toggle=""
                                 aria-expanded="false">
@@ -54,19 +55,35 @@
                                         class="nav-link-text ps-1">{{ __('Roles') }}</span>
                                 </div>
                             </a>
-                        @endif --}}
+                        @endif
 
-                        
 
-                    </li>
-
-                    
-                @endif
-
-            
-
-            </ul>
-
+                        @if (auth()->user()->hasPermission('Centrals-read'))
+                            <!-- parent pages--><a class="nav-link {{ Route::is('Centrals*') ? 'active' : '' }}"
+                                href="{{ route('Centrals.index') }}" role="button" data-bs-toggle=""
+                                aria-expanded="false">
+                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                            class="fas fa-user-tag"></span></span><span
+                                        class="nav-link-text ps-1">{{ __('Centrals') }}</span>
+                                    <span
+                                        class="badge badge-soft-primary">{{ \app\models\Central::all()->count() - 1 }}</span>
+                                </div>
         </div>
+        </a>
+        @endif
+
+
+
+
+        </li>
+
+
+        @endif
+
+
+
+        </ul>
+
+    </div>
     </div>
 </nav>

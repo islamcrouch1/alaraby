@@ -66,18 +66,7 @@
                                 </select>
                             </div>
 
-                            <div class="d-inline-block">
-                                <select name="country_id" class="form-select form-select-sm sonoo-search"
-                                    id="autoSizingSelect">
-                                    <option value="" selected>{{ __('All Countries') }}</option>
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country->id }}"
-                                            {{ request()->country_id == $country->id ? 'selected' : '' }}>
-                                            {{ app()->getLocale() == 'ar' ? $country->name_ar : $country->name_en }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+
 
 
                         </form>
@@ -184,8 +173,9 @@
                                             <div class="dropdown-menu dropdown-menu-end border py-0"
                                                 aria-labelledby="customer-dropdown-0">
                                                 <div class="bg-white py-2">
-                                                    @if ($user->trashed() &&
-                                                        auth()->user()->hasPermission('users-restore'))
+                                                    @if (
+                                                        $user->trashed() &&
+                                                            auth()->user()->hasPermission('users-restore'))
                                                         <a class="dropdown-item"
                                                             href="{{ route('users.restore', ['user' => $user->id]) }}">{{ __('Restore') }}</a>
                                                     @elseif(auth()->user()->hasPermission('users-update'))
@@ -199,7 +189,7 @@
                                                             data-bs-target="#bonus-modal-{{ $user->id }}">{{ __('Add bonus') }}</a>
                                                     @endif
                                                     @if (auth()->user()->hasPermission('users-delete') ||
-                                                        auth()->user()->hasPermission('users-trash'))
+                                                            auth()->user()->hasPermission('users-trash'))
                                                         <form method="POST"
                                                             action="{{ route('users.destroy', ['user' => $user->id]) }}">
                                                             @csrf

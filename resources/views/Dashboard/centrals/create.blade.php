@@ -6,7 +6,7 @@
         <div class="card-header">
             <div class="row flex-between-center">
                 <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
-                    <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">{{ __('Add New Category') }}</h5>
+                    <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">{{ __('Add New Central') }}</h5>
                 </div>
             </div>
         </div>
@@ -15,10 +15,10 @@
             <div class="row g-0 h-100">
                 <div class="col-md-12 d-flex flex-center">
                     <div class="p-4 p-md-5 flex-grow-1">
-                        <form method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('Centrals.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label" for="name_ar">{{ __('category name - arabic') }}</label>
+                                <label class="form-label" for="name_ar">{{ __('Central name - arabic') }}</label>
                                 <input name="name_ar" class="form-control @error('name_ar') is-invalid @enderror"
                                     value="{{ old('name_ar') }}" type="text" autocomplete="on" id="name_ar" autofocus
                                     required />
@@ -28,7 +28,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="name_en">"{{ __('category name - english') }}</label>
+                                <label class="form-label" for="name_en">"{{ __('Central name - english') }}</label>
                                 <input name="name_en" class="form-control @error('name_en') is-invalid @enderror"
                                     value="{{ old('name_en') }}" type="text" autocomplete="on" id="name_en" autofocus
                                     required />
@@ -39,7 +39,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label"
-                                    for="description_ar">{{ __('category description - arabic') }}</label>
+                                    for="description_ar">{{ __('Central description - arabic') }}</label>
                                 <input name="description_ar"
                                     class="form-control @error('description_ar') is-invalid @enderror"
                                     value="{{ old('description_ar') }}" type="text" autocomplete="on" id="description_ar"
@@ -51,7 +51,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label"
-                                    for="description_en">{{ __('category description - english') }}</label>
+                                    for="description_en">{{ __('Central description - english') }}</label>
                                 <input name="description_en"
                                     class="form-control @error('description_en') is-invalid @enderror"
                                     value="{{ old('description_en') }}" type="text" autocomplete="on"
@@ -63,21 +63,21 @@
 
 
                             <div class="mb-3">
-                                <label class="form-label" for="parent_id">{{ __('Parnet Category') }}</label>
+                                <label class="form-label" for="parent_id">{{ __('Parnet Central') }}</label>
 
                                 <select class="form-select @error('parent_id') is-invalid @enderror" aria-label=""
                                     name="parent_id" id="parent_id">
                                     <option value="">
-                                        {{ __('Main Category') }}</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">
-                                            {{ app()->getLocale() == 'ar' ? $category->name_ar : $category->name_en }}
+                                        {{ __('Main Central') }}</option>
+                                    @foreach ($Centralsas $Central)
+                                        <option value="{{ $Central->id }}">
+                                            {{ app()->getLocale() == 'ar' ? $Central->name_ar : $Central->name_en }}
                                         </option>
 
-                                        @if ($category->children->count() > 0)
-                                            @foreach ($category->children as $subCat)
-                                                @include('Dashboard.categories._category_options', [
-                                                    'category' => $subCat,
+                                        @if ($Central->children->count() > 0)
+                                            @foreach ($Central->children as $subCat)
+                                                @include('Dashboard.Centrals._Central_options', [
+                                                    'Central' => $subCat,
                                                 ])
                                             @endforeach
                                         @endif
@@ -111,7 +111,7 @@
 
 
                             <div class="mb-3">
-                                <label class="form-label" for="profit">{{ __('Category Profit %') }}</label>
+                                <label class="form-label" for="profit">{{ __('Central Profit %') }}</label>
                                 <input name="profit" class="form-control @error('profit') is-invalid @enderror"
                                     value="{{ old('profit') }}" type="number" min="0" autocomplete="on"
                                     id="profit" autofocus required />
@@ -121,7 +121,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="image">{{ __('Category image') }}</label>
+                                <label class="form-label" for="image">{{ __('Central image') }}</label>
                                 <input name="image" class="img form-control @error('image') is-invalid @enderror"
                                     type="file" id="image" required />
                                 @error('image')
@@ -142,7 +142,7 @@
                             <div class="mb-3">
                                 <button class="btn btn-primary d-block w-100 mt-3" type="submit"
                                     name="submit">{{ __('Add New
-                                                                                                            Category') }}</button>
+                                                                                                            Central') }}</button>
                             </div>
                         </form>
 

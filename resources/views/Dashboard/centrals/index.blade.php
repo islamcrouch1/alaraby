@@ -7,10 +7,10 @@
             <div class="row flex-between-center">
                 <div class="col-4 col-sm-auto d-flex align-items-center pe-0">
                     <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">
-                        @if ($categories->count() > 0 && $categories[0]->trashed())
-                            {{ __('categories trash') }}
+                        @if ($Centrals->count() > 0 && $Centrals[0]->trashed())
+                            {{ __('Centrals trash') }}
                         @else
-                            {{ __('categories') }}
+                            {{ __('Centrals') }}
                         @endif
                     </h5>
                 </div>
@@ -28,13 +28,13 @@
                     </div>
                     <div id="table-customers-replace-element">
 
-                        @if (auth()->user()->hasPermission('categories-create'))
-                            <a href="{{ route('categories.create') }}" class="btn btn-falcon-default btn-sm"
+                        @if (auth()->user()->hasPermission('Centrals-create'))
+                            <a href="{{ route('Centrals.create') }}" class="btn btn-falcon-default btn-sm"
                                 type="button"><span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span
                                     class="d-none d-sm-inline-block ms-1">{{ __('New') }}</span></a>
                         @endif
-                        <a href="{{ route('categories.trashed') }}" class="btn btn-falcon-default btn-sm"
-                            type="button"><span class="fas fa-trash" data-fa-transform="shrink-3 down-2"></span><span
+                        <a href="{{ route('Centrals.trashed') }}" class="btn btn-falcon-default btn-sm" type="button"><span
+                                class="fas fa-trash" data-fa-transform="shrink-3 down-2"></span><span
                                 class="d-none d-sm-inline-block ms-1">{{ __('Trash') }}</span></a>
                         <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt"
                                 data-fa-transform="shrink-3 down-2"></span><span
@@ -45,7 +45,7 @@
         </div>
         <div class="card-body p-0">
             <div class="table-responsive scrollbar">
-                @if ($categories->count() > 0)
+                @if ($Centrals->count() > 0)
                     <table class="table table-sm table-striped fs--1 mb-0 overflow-hidden">
                         <thead class="bg-200 text-900">
                             <tr>
@@ -66,7 +66,7 @@
                                     {{ __('Subcatecories') }}</th>
                                 <th class="sort pe-1 align-middle white-space-nowrap" style="min-width: 100px;"
                                     data-sort="joined">{{ __('Created at') }}</th>
-                                @if ($categories->count() > 0 && $categories[0]->trashed())
+                                @if ($Centrals->count() > 0 && $Centrals[0]->trashed())
                                     <th class="sort pe-1 align-middle white-space-nowrap" style="min-width: 100px;"
                                         data-sort="joined">{{ __('Deleted at') }}</th>
                                 @endif
@@ -74,7 +74,7 @@
                             </tr>
                         </thead>
                         <tbody class="list" id="table-customers-body">
-                            @foreach ($categories as $category)
+                            @foreach ($Centrals as $Central)
                                 <tr class="btn-reveal-trigger">
                                     <td class="align-middle py-2" style="width: 28px;">
                                         <div class="form-check fs-0 mb-0 d-flex align-items-center">
@@ -86,31 +86,31 @@
                                         <div class="d-flex d-flex align-items-center">
                                             <div class="avatar avatar-xl me-2">
                                                 <img class="rounded-circle"
-                                                    src="{{ asset('storage/images/categories/' . $category->image) }}"
+                                                    src="{{ asset('storage/images/Centrals/' . $Central->image) }}"
                                                     alt="" />
                                             </div>
                                             <div class="flex-1">
                                                 <h5 class="mb-0 fs--1">
-                                                    {{ app()->getLocale() == 'ar' ? $category->name_ar : $category->name_en }}
+                                                    {{ app()->getLocale() == 'ar' ? $Central->name_ar : $Central->name_en }}
                                                 </h5>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="phone align-middle white-space-nowrap py-2">{{ $category->profit . ' %' }}
+                                    <td class="phone align-middle white-space-nowrap py-2">{{ $Central->profit . ' %' }}
                                     </td>
                                     <td class="phone align-middle white-space-nowrap py-2"><a
-                                            href="{{ route('products.index', ['category_id' => $category->id]) }}"
-                                            class="btn btn-falcon-info btn-sm me-1 mb-1">{{ $category->products->count() }}
+                                            href="{{ route('products.index', ['Central_id' => $Central->id]) }}"
+                                            class="btn btn-falcon-info btn-sm me-1 mb-1">{{ $Central->products->count() }}
                                         </a></td>
                                     <td class="phone align-middle white-space-nowrap py-2"><a
-                                            href="{{ route('categories.index', ['parent_id' => $category->id]) }}"
-                                            class="btn btn-falcon-primary btn-sm me-1 mb-1">{{ __('Categories') }}
+                                            href="{{ route('Centrals.index', ['parent_id' => $Central->id]) }}"
+                                            class="btn btn-falcon-primary btn-sm me-1 mb-1">{{ __('Centrals') }}
                                         </a></td>
-                                    <td class="joined align-middle py-2">{{ $category->created_at }} <br>
-                                        {{ interval($category->created_at) }} </td>
-                                    @if ($category->trashed())
-                                        <td class="joined align-middle py-2">{{ $category->deleted_at }} <br>
-                                            {{ interval($category->deleted_at) }} </td>
+                                    <td class="joined align-middle py-2">{{ $Central->created_at }} <br>
+                                        {{ interval($Central->created_at) }} </td>
+                                    @if ($Central->trashed())
+                                        <td class="joined align-middle py-2">{{ $Central->deleted_at }} <br>
+                                            {{ interval($Central->deleted_at) }} </td>
                                     @endif
                                     <td class="align-middle white-space-nowrap py-2 text-end">
                                         <div class="dropdown font-sans-serif position-static">
@@ -122,22 +122,22 @@
                                                 aria-labelledby="customer-dropdown-0">
                                                 <div class="bg-white py-2">
                                                     @if (
-                                                        $category->trashed() &&
-                                                            auth()->user()->hasPermission('categories-restore'))
+                                                        $Central->trashed() &&
+                                                            auth()->user()->hasPermission('Centrals-restore'))
                                                         <a class="dropdown-item"
-                                                            href="{{ route('categories.restore', ['category' => $category->id]) }}">{{ __('Restore<') }}/a>
-                                                        @elseif(auth()->user()->hasPermission('categories-update'))
+                                                            href="{{ route('Centrals.restore', ['Central' => $Central->id]) }}">{{ __('Restore<') }}/a>
+                                                        @elseif(auth()->user()->hasPermission('Centrals-update'))
                                                             <a class="dropdown-item"
-                                                                href="{{ route('categories.edit', ['category' => $category->id]) }}">{{ __('Edit') }}</a>
+                                                                href="{{ route('Centrals.edit', ['Central' => $Central->id]) }}">{{ __('Edit') }}</a>
                                                     @endif
-                                                    @if (auth()->user()->hasPermission('categories-delete') ||
-                                                            auth()->user()->hasPermission('categories-trash'))
+                                                    @if (auth()->user()->hasPermission('Centrals-delete') ||
+                                                            auth()->user()->hasPermission('Centrals-trash'))
                                                         <form method="POST"
-                                                            action="{{ route('categories.destroy', ['category' => $category->id]) }}">
+                                                            action="{{ route('Centrals.destroy', ['Central' => $Central->id]) }}">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button class="dropdown-item text-danger"
-                                                                type="submit">{{ $category->trashed() ? __('Delete') : __('Trash') }}</button>
+                                                                type="submit">{{ $Central->trashed() ? __('Delete') : __('Trash') }}</button>
                                                         </form>
                                                     @endif
                                                 </div>
@@ -150,14 +150,14 @@
 
                     </table>
                 @else
-                    <h3 class="p-4">{{ __('No Categories To Show') }}</h3>
+                    <h3 class="p-4">{{ __('No CentralsTo Show') }}</h3>
                 @endif
             </div>
         </div>
 
 
         <div class="card-footer d-flex align-items-center justify-content-center">
-            {{ $categories->appends(request()->query())->links() }}
+            {{ $Centrals->appends(request()->query())->links() }}
         </div>
 
     </div>

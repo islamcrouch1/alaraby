@@ -12,33 +12,33 @@ class centralModel extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name_en', 'name_ar' , 'country_id', 'parent_id', 'profit'
+        'name_en', 'name_ar' , 'country_id', 'parent_id'
     ];
 
-    public function products()
-    {
-        // return $this->belongsToMany(Product::class);
-    }
-
-    // public function categories()
+    // public function products()
     // {
-    //     return Category::where('parent_id', $this->id)->get();
+    //     // return $this->belongsToMany(Product::class);
     // }
 
-    public function children()
-    {
-        return $this->hasMany(self::class, 'parent_id', 'id');
-    }
+    // public function Centrals()
+    // {
+    //     return Central::where('parent_id', $this->id)->get();
+    // }
 
-    public function parent()
-    {
-        return $this->belongsTo(self::class, 'parent_id');
-    }
+    // public function children()
+    // {
+    //     return $this->hasMany(self::class, 'parent_id', 'id');
+    // }
 
-    public function country()
-    {
-        return $this->belongsTo(Country::class);
-    }
+    // public function parent()
+    // {
+    //     return $this->belongsTo(self::class, 'parent_id');
+    // }
+
+    // public function country()
+    // {
+    //     return $this->belongsTo(Country::class);
+    // }
 
     public function scopeWhenSearch($query, $search)
     {

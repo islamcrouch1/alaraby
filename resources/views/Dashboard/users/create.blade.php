@@ -53,22 +53,7 @@
                                 @enderror
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label" for="country">{{ __('Country') }}</label>
 
-                                <select class="form-select @error('country') is-invalid @enderror" aria-label=""
-                                    name="country" id="country" required>
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country->id }}"
-                                            {{ old('country') == $country->id ? 'selected' : '' }}>
-                                            {{ app()->getLocale() == 'ar' ? $country->name_ar : $country->name_en }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('country')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
 
                             <div class="mb-3">
                                 <label class="form-label" for="phone">{{ __('Phone') }}</label>
@@ -93,7 +78,7 @@
                                 <div class="mb-3 col-sm-6">
                                     <label class="form-label"
                                         for="password_confirmation">{{ __('Confirm
-                                                                                Password') }}</label>
+                                                                                                                        Password') }}</label>
                                     <input class="form-control @error('password_confirmation') is-invalid @enderror"
                                         type="password" autocomplete="on" id="password_confirmation"
                                         name="password_confirmation" required />
@@ -148,7 +133,7 @@
                             <div class="mb-3">
                                 <button class="btn btn-primary d-block w-100 mt-3" type="submit"
                                     name="submit">{{ __('Add New
-                                                                        User') }}</button>
+                                                                                                            User') }}</button>
                             </div>
                         </form>
 
