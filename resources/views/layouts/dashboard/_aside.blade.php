@@ -78,6 +78,28 @@
                             </a>
                         @endif
 
+                        @if (auth()->user()->hasPermission('tasks-read'))
+                            <!-- parent pages-->
+                            <a class="nav-link {{ Route::is('tasks*') ? 'active' : '' }}"
+                                href="{{ route('tasks.index') }}" role="button" data-bs-toggle=""
+                                aria-expanded="false">
+
+                                <div class="d-flex align-items-center">
+                                    <span class="nav-link-icon">
+                                        <span class="fas fa-user-tag">
+                                        </span>
+                                    </span>
+                                    <span class="nav-link-text ps-1">
+                                        {{ __('tasks') }}
+                                    </span>
+                                    <span class="badge badge-soft-primary">
+                                        {{ getTasksCount() }}
+                                    </span>
+                                </div>
+                            </a>
+                        @endif
+
+
 
                     </li>
                 @endif

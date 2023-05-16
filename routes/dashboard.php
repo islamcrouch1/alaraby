@@ -5,6 +5,8 @@ use App\Http\Controllers\dashboard\HomeController;
 use App\Http\Controllers\dashboard\RoleController;
 use App\Http\Controllers\dashboard\UsersController;
 use App\Http\Controllers\dashboard\CentralsController;
+use App\Http\Controllers\dashboard\TasksController;
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -34,4 +36,10 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['role:superadministrator
     Route::resource('centrals', CentralsController::class)->middleware('auth', 'checkverified', 'checkstatus');
     Route::get('/trashed-centrals', [CentralsController::class, 'trashed'])->name('centrals.trashed')->middleware('auth', 'checkverified', 'checkstatus');
     Route::get('/trashed-centrals/{central}', [CentralsController::class, 'restore'])->name('centrals.restore')->middleware('auth', 'checkverified', 'checkstatus');
+
+    // tasks route
+    Route::resource('tasks', TasksController::class)->middleware('auth', 'checkverified', 'checkstatus');
+    Route::get('/trashed-tasks', [TasksController::class, 'trashed'])->name('tasks.trashed')->middleware('auth', 'checkverified', 'checkstatus');
+    Route::get('/trashed-tasks/{task}', [TasksController::class, 'restore'])->name('tasks.restore')->middleware('auth', 'checkverified', 'checkstatus');
 });
+

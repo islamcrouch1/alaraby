@@ -52,7 +52,7 @@
                                         </thead>
                                         <tbody>
                                             @php
-                                                $models = ['users', 'roles', 'settings', 'centrals'];
+                                                $models = ['users', 'roles', 'settings', 'centrals', 'tasks'];
                                                 $models_ar = ['المستخدمين', 'الصلاحيات', 'الاعدادات'];
                                             @endphp
 

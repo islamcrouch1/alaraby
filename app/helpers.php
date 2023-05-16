@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\Task;
 use App\Models\Central;
 use Carbon\Carbon;
 
@@ -92,13 +92,31 @@ if (!function_exists('checkRoleForTrash')) {
         }
     }
 }
+// check Task for trash
 
-
+if (!function_exists('checkTaskForTrash')) {
+    function checkTaskForTrash($task)
+    {
+        if ($task->users()->withTrashed()->count() > '0') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
 
 
 if (!function_exists('getCentralsCount')) {
     function getCentralsCount()
     {
         return Central::all()->count();
+    }
+}
+
+
+if (!function_exists('getTasksCount')) {
+    function getTasksCount()
+    {
+        return Task::all()->count();
     }
 }
