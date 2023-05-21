@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Central;
+use App\Models\Comment;
+use App\Models\Compound;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\Task;
+use App\Models\User;
 
 class TasksController extends Controller
 {
@@ -38,7 +42,14 @@ class TasksController extends Controller
      */
     public function create()
     {
-        return view('dashboard.tasks.create');
+        $compounds = Compound::all();
+        $comments = Comment::all();
+        $centrals = Central::all();
+        $users = User::whereHas('roles', function ($q) {
+            $q->where('name', 'tech');
+        })->get();
+
+        return view('dashboard.tasks.create', compact('compounds', 'comments', 'centrals', 'users'));
     }
 
     /**
@@ -155,5 +166,3 @@ class TasksController extends Controller
         return redirect()->route('tasks.index', ['parent_id' => $request->parent_id]);
     }
 }
-
-

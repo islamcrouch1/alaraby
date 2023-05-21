@@ -50,8 +50,8 @@
                                         </thead>
                                         <tbody>
                                             @php
-                                                $models = ['users', 'roles', 'settings', 'centrals', 'tasks'];
-                                                $models_ar = ['المستخدمين', 'الصلاحيات', 'الاعدادات'];
+                                                $models = ['users', 'roles', 'settings', 'centrals', 'tasks', 'compounds', 'comments'];
+                                                $models_ar = ['المستخدمين', 'الصلاحيات', 'الاعدادات', 'السنترالات', 'المهام', 'الكومباوندات', 'تعليقات الفنيين'];
                                             @endphp
 
                                             @foreach ($models as $index => $model)
@@ -97,7 +97,7 @@
                             <div class="mb-3">
                                 <button class="btn btn-primary d-block w-100 mt-3" type="submit"
                                     name="submit">{{ __('Add New
-                                                                                                                                                                                                                                                                                                                                                                        role') }}</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                role') }}</button>
                             </div>
                         </form>
 

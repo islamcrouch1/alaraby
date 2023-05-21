@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class Task extends Model
+class Compound extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -16,14 +16,9 @@ class Task extends Model
         'name_en', 'name_ar'
     ];
 
-    public function compound()
+    public function tasks()
     {
-        return $this->belongsTo(Compound::class);
-    }
-
-    public function comment()
-    {
-        return $this->belongsTo(Comment::class);
+        return $this->hasMany(Task::class);
     }
 
     public function scopeWhenSearch($query, $search)

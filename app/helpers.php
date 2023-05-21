@@ -1,4 +1,5 @@
 <?php
+
 use App\Models\Task;
 use App\Models\Central;
 use Carbon\Carbon;
@@ -51,6 +52,35 @@ if (!function_exists('checkUserForTrash')) {
 
 
 // check user for trash
+if (!function_exists('checkCompoundForTrash')) {
+    function checkCompoundForTrash($compound)
+    {
+        if ($compound->tasks()->withTrashed()->count() > '0') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+
+// check user for trash
+if (!function_exists('checkCommentForTrash')) {
+    function checkCommentForTrash($comment)
+    {
+        if ($comment->tasks()->withTrashed()->count() > '0') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+
+
+
+
+// check user for trash
 if (!function_exists('checkCentralForTrash')) {
     function checkCentralForTrash($central)
     {
@@ -97,7 +127,7 @@ if (!function_exists('checkRoleForTrash')) {
 if (!function_exists('checkTaskForTrash')) {
     function checkTaskForTrash($task)
     {
-        if ($task->users()->withTrashed()->count() > '0') {
+        if ($task->user()->withTrashed()->count() > '0') {
             return false;
         } else {
             return true;

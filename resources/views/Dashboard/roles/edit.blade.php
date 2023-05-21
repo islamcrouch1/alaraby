@@ -52,8 +52,8 @@
                                         </thead>
                                         <tbody>
                                             @php
-                                                $models = ['users', 'roles', 'settings', 'centrals', 'tasks'];
-                                                $models_ar = ['المستخدمين', 'الصلاحيات', 'الاعدادات'];
+                                                $models = ['users', 'roles', 'settings', 'centrals', 'tasks', 'compounds', 'comments'];
+                                                $models_ar = ['المستخدمين', 'الصلاحيات', 'الاعدادات', 'السنترالات', 'المهام', 'الكومباوندات', 'تعليقات الفنيين'];
                                             @endphp
 
                                             @foreach ($models as $index => $model)

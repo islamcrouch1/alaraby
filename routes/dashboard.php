@@ -5,6 +5,8 @@ use App\Http\Controllers\dashboard\HomeController;
 use App\Http\Controllers\dashboard\RoleController;
 use App\Http\Controllers\dashboard\UsersController;
 use App\Http\Controllers\dashboard\CentralsController;
+use App\Http\Controllers\Dashboard\CommentsController;
+use App\Http\Controllers\Dashboard\CompoundsController;
 use App\Http\Controllers\dashboard\TasksController;
 
 
@@ -41,5 +43,14 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['role:superadministrator
     Route::resource('tasks', TasksController::class)->middleware('auth', 'checkverified', 'checkstatus');
     Route::get('/trashed-tasks', [TasksController::class, 'trashed'])->name('tasks.trashed')->middleware('auth', 'checkverified', 'checkstatus');
     Route::get('/trashed-tasks/{task}', [TasksController::class, 'restore'])->name('tasks.restore')->middleware('auth', 'checkverified', 'checkstatus');
-});
 
+    // compounds route
+    Route::resource('compounds', CompoundsController::class)->middleware('auth', 'checkverified', 'checkstatus');
+    Route::get('/trashed-compounds', [CompoundsController::class, 'trashed'])->name('compounds.trashed')->middleware('auth', 'checkverified', 'checkstatus');
+    Route::get('/trashed-compounds/{compound}', [CompoundsController::class, 'restore'])->name('compounds.restore')->middleware('auth', 'checkverified', 'checkstatus');
+
+    // comments route
+    Route::resource('comments', CommentsController::class)->middleware('auth', 'checkverified', 'checkstatus');
+    Route::get('/trashed-comments', [CommentsController::class, 'trashed'])->name('comments.trashed')->middleware('auth', 'checkverified', 'checkstatus');
+    Route::get('/trashed-comments/{comment}', [CommentsController::class, 'restore'])->name('comments.restore')->middleware('auth', 'checkverified', 'checkstatus');
+});
