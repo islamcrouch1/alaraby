@@ -17,25 +17,199 @@
                     <div class="p-4 p-md-5 flex-grow-1">
                         <form method="POST" action="{{ route('tasks.store') }}" enctype="multipart/form-data">
                             @csrf
+
+
                             <div class="mb-3">
-                                <label class="form-label" for="name_ar">{{ __('task name - arabic') }}</label>
-                                <input name="name_ar" class="form-control @error('name_ar') is-invalid @enderror"
-                                    value="{{ old('name_ar') }}" type="text" autocomplete="on" id="name_ar" autofocus
+                                <label class="form-label" for="date">"{{ __('date') }}</label>
+                                <input name="date" class="form-control @error('date') is-invalid @enderror"
+                                    value="{{ old('date') }}" type="date" autocomplete="on" id="date" autofocus
                                     required />
-                                @error('name_ar')
+                                @error('date')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="date">"{{ __(' init date') }}</label>
+                                <input name="date" class="form-control @error('date') is-invalid @enderror"
+                                    value="{{ old('date') }}" type="date" autocomplete="on" id="date" autofocus
+                                    required />
+                                @error('date')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="client_name">{{ __('client name') }}</label>
+                                <input name="client_name" class="form-control @error('client_name') is-invalid @enderror"
+                                    value="{{ old('client_name') }}" type="text" autocomplete="on" id="client_name"
+                                    autofocus required />
+                                @error('client_name')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="name_en">"{{ __('task name - english') }}</label>
-                                <input name="name_en" class="form-control @error('name_en') is-invalid @enderror"
-                                    value="{{ old('name_en') }}" type="text" autocomplete="on" id="name_en" autofocus
-                                    required />
-                                @error('name_en')
+                                <label class="form-label" for="kind_of_order">"{{ __('kind of work order no') }}</label>
+                                <input name="kind_of_order"
+                                    class="form-control @error('kind_of_order') is-invalid @enderror"
+                                    value="{{ old('kind_of_order') }}" type="text" autocomplete="on" id="kind_of_order"
+                                    autofocus required />
+                                @error('kind_of_order')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="order_number">"{{ __('work order number') }}</label>
+                                <input name="order number" class="form-control @error('order number') is-invalid @enderror"
+                                    value="{{ old('order_number') }}" type="text" autocomplete="on" id="order_number"
+                                    autofocus required />
+                                @error('order number')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="central_name">"{{ __('central name') }}</label>
+                                <input name="name_en" class="form-control @error('central_name') is-invalid @enderror"
+                                    value="{{ old('central_name') }}" type="text" autocomplete="on" id="central_name"
+                                    autofocus required />
+                                @error('central_name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="city_name">"{{ __('city name') }}</label>
+                                <input name="city_name" class="form-control @error('city_name') is-invalid @enderror"
+                                    value="{{ old('city_name') }}" type="text" autocomplete="on" id="city_name"
+                                    autofocus required />
+                                @error('city_name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="email">"{{ __('email') }}</label>
+                                <input name="name_en" class="form-control @error('name_en') is-invalid @enderror"
+                                    value="{{ old('email') }}" type="email" autocomplete="on" id="email" autofocus
+                                    required />
+                                @error('email')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="telepone_no">"{{ __('telepone no') }}</label>
+                                <input name="telepone_no" class="form-control @error('telepone_no') is-invalid @enderror"
+                                    value="{{ old('telepone_no') }}" type="number" autocomplete="on" id="telepone_no"
+                                    autofocus required />
+                                @error('telepone_no')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="mobile_no">"{{ __('mobile no') }}</label>
+                                <input name="mobile_no" class="form-control @error('mobile_no') is-invalid @enderror"
+                                    value="{{ old('mobile_no') }}" type="number" autocomplete="on" id="mobile_no"
+                                    autofocus required />
+                                @error('mobile_no')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="rev_no">"{{ __('rev no') }}</label>
+                                <input name="mobile_no" class="form-control @error('rev_no') is-invalid @enderror"
+                                    value="{{ old('rev_no') }}" type="number" autocomplete="on" id="rev_no"
+                                    autofocus required />
+                                @error('rev_no')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="initiator">"{{ __('initiator') }}</label>
+                                <input name="initiator" class="form-control @error('initiator') is-invalid @enderror"
+                                    value="{{ old('initiator') }}" type="text" autocomplete="on" id="initiator"
+                                    autofocus required />
+                                @error('initiator')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="stage">"{{ __('stage') }}</label>
+                                <input name="stage" class="form-control @error('stage') is-invalid @enderror"
+                                    value="{{ old('stage') }}" type="text" autocomplete="on" id="stage"
+                                    autofocus required />
+                                @error('stage')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="status">"{{ __('status') }}</label>
+                                <input name="status" class="form-control @error('status') is-invalid @enderror"
+                                    value="{{ old('status') }}" type="text" autocomplete="on" id="stage"
+                                    autofocus required />
+                                @error('status')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="status">"{{ __('piriorty') }}</label>
+                                <input name="piriorty" class="form-control @error('piriorty') is-invalid @enderror"
+                                    value="{{ old('piriorty') }}" type="text" autocomplete="on" id="piriorty"
+                                    autofocus required />
+                                @error('piriorty')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="last_trans_date">"{{ __('last trans date') }}</label>
+                                <input name="last_trans_date"
+                                    class="form-control @error('last_trans_date') is-invalid @enderror"
+                                    value="{{ old('last_trans_date') }}" type="number" autocomplete="on"
+                                    id="last_trans_date" autofocus required />
+                                @error('last_trans_date')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+
+
+
+
 
 
 
