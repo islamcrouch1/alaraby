@@ -13,7 +13,7 @@ class Task extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name_en', 'name_ar'
+        'client_name', 'client_phone','service_number','address'
     ];
 
     public function compound()

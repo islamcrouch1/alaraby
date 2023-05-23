@@ -62,14 +62,20 @@ class TasksController extends Controller
     {
 
         $request->validate([
-            'name_ar' => "required|string|max:255|unique:tasks",
-            'name_en' => "required|string|max:255|unique:tasks",
+            'client_name' => "required|string|max:255|unique:tasks",
+            'client_phone' => "required|int|max:255|unique:tasks",
+            'service_number' => "required|int|max:255|unique:tasks",
+            'address' => "required|string|max:255|unique:tasks",
+
         ]);
 
 
         $task = task::create([
-            'name_ar' => $request['name_ar'],
-            'name_en' => $request['name_en'],
+            'client_name' => $request['client_name'],
+            'client_phone' => $request['client_phone'],
+            'service_number' => $request['service_number'],
+            'address' => $request['address'],
+
 
         ]);
 
@@ -110,15 +116,19 @@ class TasksController extends Controller
     public function update(Request $request, task $task)
     {
         $request->validate([
-            'name_ar' => "required|string|max:255|unique:tasks,name_ar," . $task->id,
-            'name_en' => "required|string|max:255|unique:tasks,name_en," . $task->id,
-
+             'client_name' => "required|string|max:255|unique:tasks". $task->id,
+            'client_phone' => "required|int|max:255|unique:tasks". $task->id,
+            'service_number' => "required|int|max:255|unique:tasks". $task->id,
+            'address' => "required|string|max:255|unique:tasks". $task->id,
         ]);
 
 
         $task->update([
-            'name_ar' => $request['name_ar'],
-            'name_en' => $request['name_en'],
+            'client_name' => $request['client_name'],
+            'client_phone' => $request['client_phone'],
+            'service_number' => $request['service_number'],
+            'address' => $request['address'],
+
         ]);
 
 

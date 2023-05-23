@@ -15,8 +15,12 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('name_ar');
-            $table->string('name_en');
+            $table->string('client_name');
+            $table->integer('client_phone');
+            $table->integer('service_number');
+            $table->string('address');
+            $table->integer('compound_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index();
             $table->timestamps();
         });
     }
