@@ -17,6 +17,15 @@ if (!function_exists('interval')) {
 }
 
 
+// calculate date
+if (!function_exists('interval2')) {
+    function interval2($old)
+    {
+        $old = Carbon::parse($old);
+        return $interval = $old->diffForHumans();
+    }
+}
+
 
 
 // alert success

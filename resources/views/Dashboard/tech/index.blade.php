@@ -28,17 +28,7 @@
                     </div>
                     <div id="table-customers-replace-element">
 
-                        @if (auth()->user()->hasPermission('tasks-create'))
-                            <a href="{{ route('tasks.create') }}" class="btn btn-falcon-default btn-sm" type="button"><span
-                                    class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span
-                                    class="d-none d-sm-inline-block ms-1">{{ __('New') }}</span></a>
-                        @endif
-                        <a href="{{ route('tasks.trashed') }}" class="btn btn-falcon-default btn-sm" type="button"><span
-                                class="fas fa-trash" data-fa-transform="shrink-3 down-2"></span><span
-                                class="d-none d-sm-inline-block ms-1">{{ __('Trash') }}</span></a>
-                        <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt"
-                                data-fa-transform="shrink-3 down-2"></span><span
-                                class="d-none d-sm-inline-block ms-1">{{ __('Export') }}</span></button>
+
                     </div>
                 </div>
             </div>
@@ -66,16 +56,8 @@
                                 <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
                                     {{ __('Service Number') }}
                                 </th>
-                                <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
-                                    {{ __('Task Date') }}
-                                </th>
 
-                                <th class="sort pe-1 align-middle white-space-nowrap" style="min-width: 100px;"
-                                    data-sort="joined">{{ __('Created at') }}</th>
-                                @if ($tasks->count() > 0 && $tasks[0]->trashed())
-                                    <th class="sort pe-1 align-middle white-space-nowrap" style="min-width: 100px;"
-                                        data-sort="joined">{{ __('Deleted at') }}</th>
-                                @endif
+
                                 <th class="align-middle no-sort"></th>
                             </tr>
                         </thead>
@@ -93,15 +75,9 @@
                                     <td class="joined align-middle py-2">{{ $task->client_name }} </td>
                                     <td class="joined align-middle py-2">{{ $task->client_phone }} </td>
                                     <td class="joined align-middle py-2">{{ $task->service_number }} </td>
-                                    <td class="joined align-middle py-2">{{ $task->task_date }} <br>
-                                        {{ interval2($task->task_date) }} </td>
 
-                                    <td class="joined align-middle py-2">{{ $task->created_at }} <br>
-                                        {{ interval($task->created_at) }} </td>
-                                    @if ($task->trashed())
-                                        <td class="joined align-middle py-2">{{ $task->deleted_at }} <br>
-                                            {{ interval($task->deleted_at) }} </td>
-                                    @endif
+
+
                                     <td class="align-middle white-space-nowrap py-2 text-end">
                                         <div class="dropdown font-sans-serif position-static">
                                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal"

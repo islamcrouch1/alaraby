@@ -19,6 +19,18 @@
                             @csrf
 
 
+
+                            <div class="mb-3">
+                                <label class="form-label" for="task_date">{{ __('task date') }}</label>
+
+                                <input type="datetime-local" id="task_date" name="task_date"
+                                    class="form-control @error('task_date') is-invalid @enderror" value="" required>
+
+                                @error('task_date')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <div class="mb-3">
                                 <label class="form-label" for="client_name">{{ __('client name') }}</label>
                                 <input name="client_name" class="form-control @error('client_name') is-invalid @enderror"
@@ -43,8 +55,8 @@
                                 <label class="form-label" for="service_number">{{ __('service number') }}</label>
                                 <input name="service_number"
                                     class="form-control @error('service_number') is-invalid @enderror"
-                                    value="{{ old('service_number') }}" type="number" autocomplete="on" id="service_number"
-                                    autofocus required />
+                                    value="{{ old('service_number') }}" type="number" autocomplete="on"
+                                    id="service_number" autofocus required />
                                 @error('service_number')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror

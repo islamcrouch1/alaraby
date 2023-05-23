@@ -19,26 +19,112 @@
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
+
+
                             <div class="mb-3">
-                                <label class="form-label" for="name_ar">{{ __('task name - arabic') }}</label>
-                                <input name="name_ar" class="form-control @error('name_ar') is-invalid @enderror"
-                                    value="{{ $task->name_ar }}" type="text" autocomplete="on" id="name_ar" autofocus
-                                    required />
-                                @error('name_ar')
+                                <label class="form-label" for="task_date">{{ __('task date') }}</label>
+
+                                <input type="datetime-local" id="task_date" name="task_date"
+                                    class="form-control @error('task_date') is-invalid @enderror"
+                                    value="{{ $task->task_date }}" required>
+
+                                @error('task_date')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="client_name">{{ __('client name') }}</label>
+                                <input name="client_name" class="form-control @error('client_name') is-invalid @enderror"
+                                    value="{{ $task->client_name }}" type="text" autocomplete="on" id="client_name"
+                                    autofocus required />
+                                @error('client_name')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="name_en">{{ __('task name - english') }}</label>
-                                <input name="name_en" class="form-control @error('name_en') is-invalid @enderror"
-                                    value="{{ $task->name_en }}" type="text" autocomplete="on" id="name_en" autofocus
-                                    required />
-                                @error('name_en')
+                                <label class="form-label" for="client_phone">{{ __('client pohne') }}</label>
+                                <input name="client_phone" class="form-control @error('client_phone') is-invalid @enderror"
+                                    value="{{ $task->client_phone }}" type="number" autocomplete="on" id="client_phone"
+                                    autofocus required />
+                                @error('client_phone')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
+                            <div class="mb-3">
+                                <label class="form-label" for="service_number">{{ __('service number') }}</label>
+                                <input name="service_number"
+                                    class="form-control @error('service_number') is-invalid @enderror"
+                                    value="{{ $task->service_number }}" type="number" autocomplete="on"
+                                    id="service_number" autofocus required />
+                                @error('service_number')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="address">{{ __('address') }}</label>
+                                <input name="address" class="form-control @error('address') is-invalid @enderror"
+                                    value="{{ $task->address }}" type="text" autocomplete="on" id="address" autofocus
+                                    required />
+                                @error('address')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="central">{{ __('select central') }}</label>
+
+                                <select class="form-select @error('central') is-invalid @enderror" name="central">
+                                    @foreach ($centrals as $central)
+                                        <option value="{{ $central->id }}"
+                                            {{ $central->id == $task->central_id ? 'selected' : '' }}>
+                                            {{ app()->getLocale() == 'ar' ? $central->name_ar : $central->name_en }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('central')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="compound">{{ __('select compound') }}</label>
+
+                                <select class="form-select @error('compound') is-invalid @enderror" name="compound">
+                                    @foreach ($compounds as $compound)
+                                        <option value="{{ $compound->id }}"
+                                            {{ $compound->id == $task->compound_id ? 'selected' : '' }}>
+                                            {{ app()->getLocale() == 'ar' ? $compound->name_ar : $compound->name_en }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('compound')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label" for="tech">{{ __('select technician') }}</label>
+
+                                <select class="form-select @error('tech') is-invalid @enderror" name="tech">
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}"
+                                            {{ $user->id == $task->user_id ? 'selected' : '' }}>
+                                            {{ $user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('tech')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
 
 
 

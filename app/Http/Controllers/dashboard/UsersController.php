@@ -115,7 +115,11 @@ class UsersController extends Controller
         ]);
 
 
-        $user->attachRoles(['administrator', $request['role']]);
+        if ($request->role == 'tech') {
+            $user->attachRoles([$request['role']]);
+        } else {
+            $user->attachRoles(['administrator', $request['role']]);
+        }
 
 
         alertSuccess('user created successfully', 'تم إضافة المستخدم بنجاح');
@@ -200,7 +204,15 @@ class UsersController extends Controller
 
 
         $user->detachRoles($user->roles);
-        $user->attachRoles(['administrator', $request['role']]);
+
+        if ($request->role == 'tech') {
+            $user->attachRoles([$request['role']]);
+        } else {
+            $user->attachRoles(['administrator', $request['role']]);
+        }
+
+
+
 
         alertSuccess('user updated successfully', 'تم تعديل المستخدم بنجاح');
         return redirect()->route('users.index');

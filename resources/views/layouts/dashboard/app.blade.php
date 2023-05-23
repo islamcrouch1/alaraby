@@ -14,7 +14,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Sonoo - Affiliate Platform</title>
+    <title>alaraby telcom</title>
 
 
 

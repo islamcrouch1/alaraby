@@ -44,12 +44,11 @@
 
                                 <select class="form-select @error('role') is-invalid @enderror" aria-label=""
                                     name="role" id="role" required>
-                                    @if ($user->hasRole('vendor') || $user->hasRole('affiliate'))
-                                        <option value="{{ $user->hasRole('affiliate') ? '4' : '3' }}" selected>
-                                            {{ $user->hasRole('affiliate') ? 'affiliate' : 'vendor' }}</option>
+                                    @if ($user->hasRole('tech'))
+                                        <option value="tech" selected>{{ __('technicain') }}</option>
                                     @else
                                         @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}"
+                                            <option value="{{ $role->name }}"
                                                 {{ $user->hasRole($role->name) ? 'selected' : '' }}>{{ $role->name }}
                                             </option>
                                         @endforeach
@@ -85,8 +84,7 @@
                                 </div>
                                 <div class="mb-3 col-sm-6">
                                     <label class="form-label"
-                                        for="password_confirmation">{{ __('Confirm
-                                                                                                                                                                                                        Password') }}</label>
+                                        for="password_confirmation">{{ __('Confirm Password') }}</label>
                                     <input class="form-control @error('password_confirmation') is-invalid @enderror"
                                         type="password" autocomplete="on" id="password_confirmation"
                                         name="password_confirmation" />
@@ -140,8 +138,7 @@
 
                             <div class="mb-3">
                                 <button class="btn btn-primary d-block w-100 mt-3" type="submit"
-                                    name="submit">{{ __('Edit
-                                                                                                                                                                                    User') }}</button>
+                                    name="submit">{{ __('Edit User') }}</button>
                             </div>
                         </form>
 

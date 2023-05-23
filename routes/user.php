@@ -1,14 +1,14 @@
 <?php
 
 use App\Http\Controllers\dashboard\HomeController;
-
+use App\Http\Controllers\Dashboard\TechController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::group(['prefix' => 'user', 'middleware' => ['role:superadministrator|administrator']], function () {
 
     // home view route - dashboard
-    Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
+    Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth', 'checkverified', 'checkstatus');
 
     // user routes
     Route::get('edit', [ProfileController::class, 'edit'])->name('user.edit')->middleware('auth', 'checkverified', 'checkstatus');
@@ -29,4 +29,13 @@ Route::group(['prefix' => 'user', 'middleware' => ['role:superadministrator|admi
 
     // store information route
     Route::post('store/update', [ProfileController::class, 'updateStore'])->name('user.store.update')->middleware('auth', 'checkverified', 'checkstatus');
+});
+
+
+
+Route::group(['prefix' => 'tech'], function () {
+
+    // home view route - dashboard
+    Route::get('/', [TechController::class, 'index'])->name('tech.home')->middleware('auth', 'checkverified', 'checkstatus');
+    Route::get('/tech-tasks', [TechController::class, 'myTasks'])->name('tech.tasks')->middleware('auth', 'checkverified', 'checkstatus');
 });

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\Task;
 use App\Models\User;
+use Carbon\Carbon;
 
 class TasksController extends Controller
 {
@@ -62,12 +63,19 @@ class TasksController extends Controller
     {
 
         $request->validate([
-            'client_name' => "required|string|max:255|unique:tasks",
-            'client_phone' => "required|int|max:255|unique:tasks",
-            'service_number' => "required|int|max:255|unique:tasks",
-            'address' => "required|string|max:255|unique:tasks",
-
+            'client_name' => "required|string|max:255",
+            'client_phone' => "required|string|max:255",
+            'service_number' => "required|string|max:255|unique:tasks",
+            'address' => "required|string|max:255",
+            'compound' => "required|integer",
+            'central' => "required|integer",
+            'tech' => "required|integer",
+            'task_date' => "required|string",
         ]);
+
+
+        $date = Carbon::parse($request->task_date);
+        $date = $date->addDay();
 
 
         $task = task::create([
@@ -75,8 +83,11 @@ class TasksController extends Controller
             'client_phone' => $request['client_phone'],
             'service_number' => $request['service_number'],
             'address' => $request['address'],
-
-
+            'compound_id' => $request['compound'],
+            'user_id' => $request['tech'],
+            'central_id' => $request['central'],
+            'task_date' => $request['task_date'],
+            'end_date' => $date->toDateString()
         ]);
 
         alertSuccess('task created successfully', 'تم إضافة السنترال بنجاح');
@@ -102,8 +113,14 @@ class TasksController extends Controller
      */
     public function edit($task)
     {
+        $compounds = Compound::all();
+        $comments = Comment::all();
+        $centrals = Central::all();
+        $users = User::whereHas('roles', function ($q) {
+            $q->where('name', 'tech');
+        })->get();
         $task = task::findOrFail($task);
-        return view('dashboard.tasks.edit ')->with('task', $task);
+        return view('dashboard.tasks.edit',  compact('compounds', 'comments', 'centrals', 'users', 'task'));
     }
 
     /**
@@ -116,19 +133,31 @@ class TasksController extends Controller
     public function update(Request $request, task $task)
     {
         $request->validate([
-             'client_name' => "required|string|max:255|unique:tasks". $task->id,
-            'client_phone' => "required|int|max:255|unique:tasks". $task->id,
-            'service_number' => "required|int|max:255|unique:tasks". $task->id,
-            'address' => "required|string|max:255|unique:tasks". $task->id,
+            'client_name' => "required|string|max:255",
+            'client_phone' => "required|string|max:255",
+            'service_number' => "required|string|max:255|unique:tasks,service_number," . $task->id,
+            'address' => "required|string|max:255",
+            'compound' => "required|integer",
+            'central' => "required|integer",
+            'tech' => "required|integer",
+            'task_date' => "required|string",
         ]);
 
+
+
+        $date = Carbon::parse($request->task_date);
+        $date = $date->addDay();
 
         $task->update([
             'client_name' => $request['client_name'],
             'client_phone' => $request['client_phone'],
             'service_number' => $request['service_number'],
             'address' => $request['address'],
-
+            'compound_id' => $request['compound'],
+            'user_id' => $request['tech'],
+            'central_id' => $request['central'],
+            'task_date' => $request['task_date'],
+            'end_date' => $date->toDateString()
         ]);
 
 
@@ -145,12 +174,12 @@ class TasksController extends Controller
      */
     public function destroy($task)
     {
-        $task = task::withTrashed()->where('id', $task)->first();
+        $task = Task::withTrashed()->where('id', $task)->first();
         if ($task->trashed() && auth()->user()->hasPermission('tasks-delete')) {
             $task->forceDelete();
             alertSuccess('task deleted successfully', 'تم حذف السنترال بنجاح');
             return redirect()->route('tasks.trashed');
-        } elseif (!$task->trashed() && auth()->user()->hasPermission('tasks-trash') && checkTaskForTrash($task)) {
+        } elseif (!$task->trashed() && auth()->user()->hasPermission('tasks-trash')) {
             $task->delete();
             alertSuccess('task trashed successfully', 'تم حذف السنترال مؤقتا');
             return redirect()->route('tasks.index');
@@ -162,7 +191,7 @@ class TasksController extends Controller
 
     public function trashed()
     {
-        $tasks = task::onlyTrashed()
+        $tasks = Task::onlyTrashed()
             ->whenSearch(request()->search)
             ->latest()
             ->paginate(100);
