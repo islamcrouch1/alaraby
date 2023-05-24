@@ -30,4 +30,18 @@ class TechController extends Controller
             ->latest()->paginate();
         return view('dashboard.tech.index', compact('tasks'));
     }
+
+    public function tech_task()
+    {
+
+        $date = Carbon::now();
+
+
+
+        $tasks = Task::where('user_id', Auth::id())
+            ->whereDate('end_date', '>=', $date)
+            ->whereDate('task_date', '<=',  $date)
+            ->latest()->paginate();
+        return view('dashboard.tech.one', compact('tasks',['task'=>$task_id]));
+    }
 }

@@ -45,16 +45,27 @@
                                             data-bulk-select='{"body":"table-customers-body","actions":"table-customers-actions","replacedElement":"table-customers-replace-element"}' />
                                     </div>
                                 </th>
-                                <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">{{ __('ID') }}
+                                {{-- <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">{{ __('ID') }}
                                 </th>
                                 <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
                                     {{ __('Client Name') }}
-                                </th>
+                                </th> --}}
                                 <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
                                     {{ __('Clien Phone') }}
                                 </th>
                                 <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
                                     {{ __('Service Number') }}
+                                </th>
+
+                                <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
+                                    <button class="btn btn-outline-info me-1 mb-1" type="button">Show
+                                    </button>
+                                </th>
+
+                                <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
+                                    <a class="btn btn-outline-info me-1 mb-1" href="{{ url('tech.tasks') }}"
+                                        type="button">Update
+                                    </a>
                                 </th>
 
 
@@ -71,14 +82,14 @@
                                         </div>
                                     </td>
 
-                                    <td class="joined align-middle py-2">{{ $task->id }} </td>
-                                    <td class="joined align-middle py-2">{{ $task->client_name }} </td>
+                                    {{-- <td class="joined align-middle py-2">{{ $task->id }} </td>
+                                    <td class="joined align-middle py-2">{{ $task->client_name }} </td> --}}
                                     <td class="joined align-middle py-2">{{ $task->client_phone }} </td>
                                     <td class="joined align-middle py-2">{{ $task->service_number }} </td>
 
 
 
-                                    <td class="align-middle white-space-nowrap py-2 text-end">
+                                    {{-- <td class="align-middle white-space-nowrap py-2 text-end">
                                         <div class="dropdown font-sans-serif position-static">
                                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal"
                                                 type="button" id="customer-dropdown-0" data-bs-toggle="dropdown"
@@ -87,9 +98,8 @@
                                             <div class="dropdown-menu dropdown-menu-end border py-0"
                                                 aria-labelledby="customer-dropdown-0">
                                                 <div class="bg-white py-2">
-                                                    @if (
-                                                        $task->trashed() &&
-                                                            auth()->user()->hasPermission('tasks-restore'))
+                                                    @if ($task->trashed() &&
+    auth()->user()->hasPermission('tasks-restore'))
                                                         <a class="dropdown-item"
                                                             href="{{ route('tasks.restore', ['task' => $task->id]) }}">{{ __('Restore') }}</a>
                                                     @elseif(auth()->user()->hasPermission('tasks-update'))
@@ -97,7 +107,7 @@
                                                             href="{{ route('tasks.edit', ['task' => $task->id]) }}">{{ __('Edit') }}</a>
                                                     @endif
                                                     @if (auth()->user()->hasPermission('tasks-delete') ||
-                                                            auth()->user()->hasPermission('tasks-trash'))
+    auth()->user()->hasPermission('tasks-trash'))
                                                         <form method="POST"
                                                             action="{{ route('tasks.destroy', ['task' => $task->id]) }}">
                                                             @csrf
@@ -109,7 +119,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                         </tbody>
