@@ -159,3 +159,17 @@ if (!function_exists('getTasksCount')) {
         return Task::all()->count();
     }
 }
+
+
+if (!function_exists('getName')) {
+    function getName($item)
+    {
+        if (isset($item) && isset($item->name_ar) && isset($item->name_en)) {
+            if (app()->getLocale() == 'ar') {
+                return $item->name_ar;
+            } else {
+                return $item->name_en;
+            }
+        }
+    }
+}

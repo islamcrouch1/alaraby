@@ -21,6 +21,11 @@ class Task extends Model
         return $this->belongsTo(Compound::class);
     }
 
+    public function central()
+    {
+        return $this->belongsTo(Central::class);
+    }
+
     public function comment()
     {
         return $this->belongsTo(Comment::class);

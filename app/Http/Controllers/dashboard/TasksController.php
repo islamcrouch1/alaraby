@@ -90,7 +90,7 @@ class TasksController extends Controller
             'end_date' => $date->toDateString()
         ]);
 
-        alertSuccess('task created successfully', 'تم إضافة السنترال بنجاح');
+        alertSuccess('task created successfully', 'تم إضافة المهمة بنجاح');
         return redirect()->route('tasks.index');
     }
 
@@ -162,7 +162,7 @@ class TasksController extends Controller
 
 
 
-        alertSuccess('task updated successfully', 'تم تعديل السنترال بنجاح');
+        alertSuccess('task updated successfully', 'تم تعديل المهمة بنجاح');
         return redirect()->route('tasks.index');
     }
 
@@ -177,14 +177,14 @@ class TasksController extends Controller
         $task = Task::withTrashed()->where('id', $task)->first();
         if ($task->trashed() && auth()->user()->hasPermission('tasks-delete')) {
             $task->forceDelete();
-            alertSuccess('task deleted successfully', 'تم حذف السنترال بنجاح');
+            alertSuccess('task deleted successfully', 'تم حذف المهمة بنجاح');
             return redirect()->route('tasks.trashed');
         } elseif (!$task->trashed() && auth()->user()->hasPermission('tasks-trash')) {
             $task->delete();
-            alertSuccess('task trashed successfully', 'تم حذف السنترال مؤقتا');
+            alertSuccess('task trashed successfully', 'تم حذف المهمة مؤقتا');
             return redirect()->route('tasks.index');
         } else {
-            alertError('Sorry, you do not have permission to perform this action, or the task cannot be deleted at the moment', 'نأسف ليس لديك صلاحية للقيام بهذا الإجراء ، أو السنترال لا يمكن حذفه حاليا');
+            alertError('Sorry, you do not have permission to perform this action, or the task cannot be deleted at the moment', 'نأسف ليس لديك صلاحية للقيام بهذا الإجراء ، أو المهمة لا يمكن حذفه حاليا');
             return redirect()->back();
         }
     }
@@ -201,7 +201,7 @@ class TasksController extends Controller
     public function restore($task, Request $request)
     {
         $task = task::withTrashed()->where('id', $task)->first()->restore();
-        alertSuccess('task restored successfully', 'تم استعادة السنترال بنجاح');
+        alertSuccess('task restored successfully', 'تم استعادة المهمة بنجاح');
         return redirect()->route('tasks.index', ['parent_id' => $request->parent_id]);
     }
 }
