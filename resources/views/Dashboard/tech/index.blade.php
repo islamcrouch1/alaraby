@@ -87,7 +87,8 @@
                                         <button class="btn btn-outline-success me-1 mb-1" type="button"
                                             data-bs-toggle="modal"
                                             data-bs-target="#show-task-{{ $task->id }}">{{ __('show') }}</button>
-                                        <a class="btn btn-outline-info me-1 mb-1" href="{{ url('tech.tasks') }}"
+                                        <a class="btn btn-outline-info me-1 mb-1"
+                                            href="{{ route('tech.update', ['task' => $task->id]) }}"
                                             type="button">{{ __('update') }}
                                         </a>
                                     </td>

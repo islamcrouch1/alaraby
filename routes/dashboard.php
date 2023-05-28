@@ -8,6 +8,8 @@ use App\Http\Controllers\dashboard\CentralsController;
 use App\Http\Controllers\Dashboard\CommentsController;
 use App\Http\Controllers\Dashboard\CompoundsController;
 use App\Http\Controllers\dashboard\TasksController;
+use App\Http\Controllers\dashboard\TechController;
+
 
 
 use Illuminate\Support\Facades\Route;
