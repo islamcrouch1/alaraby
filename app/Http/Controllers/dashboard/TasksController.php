@@ -71,17 +71,9 @@ class TasksController extends Controller
             'central' => "required|integer",
             'tech' => "required|integer",
             'task_date' => "required|string",
-            'comment' => "required|integer",
-            'cab' => "required|string",
-            'box' => "required|string",
-            'db' => "required|string",
-            'cable_type' => "required|string",
-            'cable_length' => "required|string",
-            'connector' => "required|string",
-            'face_split' => "required|string",
-            'status' => "required|string",
-            'type' => "required|string",
+
         ]);
+
 
 
         $date = Carbon::parse($request->task_date);
@@ -98,16 +90,7 @@ class TasksController extends Controller
             'central_id' => $request['central'],
             'task_date' => $request['task_date'],
             'end_date' => $date->toDateString(),
-            'cab' => $request['cab'],
-            'box' => $request['box'],
-            'db' => $request['db'],
-            'cable_type' => $request['cable_type'],
-            'cable_length' => $request['cable_length'],
-            'connector' => $request['connector'],
-            'face_split' => $request['face_split'],
-            'status' => $request['status'],
-            'comment_id' => $request['comment'],
-            'type' => $request['type'],
+
         ]);
 
         alertSuccess('task created successfully', 'تم إضافة المهمة بنجاح');
@@ -161,19 +144,6 @@ class TasksController extends Controller
             'central' => "required|integer",
             'tech' => "required|integer",
             'task_date' => "required|string",
-            'comment' => "required|integer",
-            'cab' => "required|string",
-            'box' => "required|string",
-            'db' => "required|string",
-            'cable_type' => "required|string",
-            'cable_length' => "required|string",
-            'connector' => "required|string",
-            'face_split' => "required|string",
-            'status' => "required|string",
-            'type' => "required|string",
-            
-
-
         ]);
 
 
@@ -191,18 +161,6 @@ class TasksController extends Controller
             'central_id' => $request['central'],
             'task_date' => $request['task_date'],
             'end_date' => $date->toDateString(),
-            'cab' => $request['cab'],
-            'box' => $request['box'],
-            'db' => $request['db'],
-            'cable_type' => $request['cable_type'],
-            'cable_length' => $request['cable_length'],
-            'connector' => $request['connector'],
-            'face_split' => $request['face_split'],
-            'status' => $request['status'],
-            'comment_id' => $request['comment'],
-            'type' => $request['type'],
-
-            
 
         ]);
 

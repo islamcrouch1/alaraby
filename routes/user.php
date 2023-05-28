@@ -38,5 +38,9 @@ Route::group(['prefix' => 'tech'], function () {
     // home view route - dashboard
     Route::get('/', [TechController::class, 'index'])->name('tech.home')->middleware('auth', 'checkverified', 'checkstatus');
     Route::get('/tech-tasks', [TechController::class, 'myTasks'])->name('tech.tasks')->middleware('auth', 'checkverified', 'checkstatus');
-    Route::get('/tech-update', [TechController::class, 'edit'])->name('tech.update')->middleware('auth', 'checkverified', 'checkstatus');
+
+
+
+    Route::get('/tech-edit/{task}', [TechController::class, 'edit'])->name('tech.edit')->middleware('auth', 'checkverified', 'checkstatus');
+    Route::post('/tech-update/{task}', [TechController::class, 'update'])->name('tech.update')->middleware('auth', 'checkverified', 'checkstatus');
 });

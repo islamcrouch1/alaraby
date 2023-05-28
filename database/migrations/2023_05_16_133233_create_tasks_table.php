@@ -25,16 +25,6 @@ return new class extends Migration
             $table->integer('comment_id')->nullable();
             $table->timestamp('task_date')->nullable();
             $table->timestamp('end_date')->nullable();
-            $table->timestamp('status')->nullable();
-            $table->timestamp('db')->nullable();
-            $table->timestamp('box')->nullable();
-            $table->timestamp('cab')->nullable();
-            $table->timestamp('cable_type')->nullable();
-            $table->timestamp('cable_length')->nullable();
-            $table->timestamp('type')->nullable();
-            $table->timestamp('connectors')->nullable();
-            $table->timestamp('face_split')->nullable();
-            
             $table->timestamps();
         });
     }

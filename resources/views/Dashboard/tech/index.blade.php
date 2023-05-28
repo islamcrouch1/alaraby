@@ -1,5 +1,9 @@
 @extends('layouts.dashboard.app')
 
+@php
+    app()->setLocale('ar');
+@endphp
+
 @section('adminContent')
     <div class="card mb-3" id="customersTable"
         data-list='{"valueNames":["name","email","phone","address","joined"],"page":10,"pagination":true}'>
@@ -63,12 +67,11 @@
 
 
 
-
                             </tr>
                         </thead>
                         <tbody class="list" id="table-customers-body">
                             @foreach ($tasks as $task)
-                                <tr class="btn-reveal-trigger">
+                                <tr class="{{ $task->cab != null ? 'table-danger' : '' }}">
                                     <td class="align-middle py-2" style="width: 28px;">
                                         <div class="form-check fs-0 mb-0 d-flex align-items-center">
                                             <input class="form-check-input" type="checkbox" id="customer-0"
@@ -88,7 +91,7 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#show-task-{{ $task->id }}">{{ __('show') }}</button>
                                         <a class="btn btn-outline-info me-1 mb-1"
-                                            href="{{ route('tech.update', ['task' => $task->id]) }}"
+                                            href="{{ route('tech.edit', ['task' => $task->id]) }}"
                                             type="button">{{ __('update') }}
                                         </a>
                                     </td>
