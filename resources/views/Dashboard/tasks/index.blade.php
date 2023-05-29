@@ -70,15 +70,26 @@
                                     {{ __('Task Date') }}
                                 </th>
 
+
+
                                 <th class="sort pe-1 align-middle white-space-nowrap" style="min-width: 100px;"
                                     data-sort="joined">{{ __('Created at') }}</th>
                                 @if ($tasks->count() > 0 && $tasks[0]->trashed())
                                     <th class="sort pe-1 align-middle white-space-nowrap" style="min-width: 100px;"
                                         data-sort="joined">{{ __('Deleted at') }}</th>
                                 @endif
-                                <th class="align-middle no-sort"></th>
+
+
+                                <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
+                                    {{ __('Tech Update') }}
+                                </th>
+
+                                <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
+                                    {{ __('Action') }}
+                                </th>
                             </tr>
                         </thead>
+
                         <tbody class="list" id="table-customers-body">
                             @foreach ($tasks as $task)
                                 <tr class="btn-reveal-trigger">
@@ -102,7 +113,15 @@
                                         <td class="joined align-middle py-2">{{ $task->deleted_at }} <br>
                                             {{ interval($task->deleted_at) }} </td>
                                     @endif
+                                    <td class="joined align-middle py-2">
+
+                                        <button class="btn btn-outline-success me-1 mb-1" type="button"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#show-task-{{ $task->id }}">{{ __('show') }}</button>
+
+                                    </td>
                                     <td class="align-middle white-space-nowrap py-2 text-end">
+
                                         <div class="dropdown font-sans-serif position-static">
                                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal"
                                                 type="button" id="customer-dropdown-0" data-bs-toggle="dropdown"
@@ -120,6 +139,11 @@
                                                         <a class="dropdown-item"
                                                             href="{{ route('tasks.edit', ['task' => $task->id]) }}">{{ __('Edit') }}</a>
                                                     @endif
+
+                                                    @if (auth()->user()->hasPermission('tasks-update'))
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('tech.edit', ['task' => $task->id]) }}">{{ __('Edit tech update') }}</a>
+                                                    @endif
                                                     @if (auth()->user()->hasPermission('tasks-delete') ||
                                                             auth()->user()->hasPermission('tasks-trash'))
                                                         <form method="POST"
@@ -135,12 +159,101 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+
                         </tbody>
 
                     </table>
-                @else
-                    <h3 class="p-4">{{ __('No tasksTo Show') }}</h3>
+
+                    @foreach ($tasks as $task)
+                        <div class="modal fade" id="show-task-{{ $task->id }}" tabindex="-1" role="dialog"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+                                <div class="modal-content position-relative">
+                                    <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                                        <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-0">
+                                        <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                                            <h4 class="mb-1" id="modalExampleDemoLabel">
+                                                {{ __('task service number') . ': ' . $task->service_number }}
+                                            </h4>
+                                        </div>
+                                        <div class="p-4 pb-0">
+
+                                            <div class="table-responsive scrollbar">
+                                                <table class="table table-bordered overflow-hidden">
+                                                    <colgroup>
+                                                        <col class="bg-soft-primary" />
+                                                        <col />
+                                                    </colgroup>
+
+                                                    <tbody>
+
+                                                        <tr class="btn-reveal-trigger">
+                                                            <td>{{ __('db') }}</td>
+                                                            <td> {{ $task->db }}</td>
+                                                        </tr>
+
+                                                        <tr class="btn-reveal-trigger">
+                                                            <td>{{ __('box') }}</td>
+                                                            <td>{{ $task->box }}</td>
+                                                        </tr>
+
+                                                        <tr class="btn-reveal-trigger">
+                                                            <td>{{ __('cab number') }}</td>
+                                                            <td>{{ $task->cab }}</td>
+                                                        </tr>
+
+                                                        <tr class="btn-reveal-trigger">
+                                                            <td>{{ __('cable type') }}</td>
+                                                            <td>{{ $task->cable_type }}</td>
+                                                        </tr>
+
+                                                        <tr class="btn-reveal-trigger">
+                                                            <td>{{ __('connectors') }}</td>
+                                                            <td>{{ $task->connectors }}</td>
+                                                        </tr>
+
+                                                        <tr class="btn-reveal-trigger">
+                                                            <td>{{ __('face split') }}</td>
+                                                            <td>{{ $task->face_split }}</td>
+                                                        </tr>
+
+                                                        <tr class="btn-reveal-trigger">
+                                                            <td>{{ __('cable length') }}</td>
+                                                            <td>{{ $task->cable_length }}</td>
+                                                        </tr>
+
+
+
+                                                        <tr class="btn-reveal-trigger">
+                                                            <td>{{ __('comment') }}</td>
+                                                            <td>{{ getName($task->comment) }}</td>
+                                                        </tr>
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" type="button"
+                                            data-bs-dismiss="modal">{{ __('Close') }}</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endforeach
+                </tbody>
+
+                </table>
+            @else
+                <h3 class="p-4">{{ __('No tasksTo Show') }}</h3>
                 @endif
             </div>
         </div>
