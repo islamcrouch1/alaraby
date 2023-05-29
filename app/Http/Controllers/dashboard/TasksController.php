@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Imports\TasksImport;
 use App\Models\Central;
 use App\Models\Comment;
 use App\Models\Compound;
@@ -89,7 +90,7 @@ class TasksController extends Controller
             'user_id' => $request['tech'],
             'central_id' => $request['central'],
             'task_date' => $request['task_date'],
-            'end_date' => $date->toDateString(),
+            'end_date' => $date->toDateTimeString(),
 
         ]);
 
@@ -207,5 +208,24 @@ class TasksController extends Controller
         $task = task::withTrashed()->where('id', $task)->first()->restore();
         alertSuccess('task restored successfully', 'تم استعادة المهمة بنجاح');
         return redirect()->route('tasks.index', ['parent_id' => $request->parent_id]);
+    }
+
+    public function import(Request $request)
+    {
+        $file = $request->file('file')->store('import');
+
+        $import = new TasksImport;
+        $import->import($file);
+
+        if ($import->failures()->isNotEmpty()) {
+            return back()->withFailures($import->failures());
+        }
+
+        if (!session('error')) {
+            alertSuccess('The file has been uploaded successfully.', 'تم رفع الملف بنجاح.');
+            return redirect()->back();
+        } else {
+            return redirect()->back();
+        }
     }
 }

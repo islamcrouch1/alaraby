@@ -55,4 +55,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['role:superadministrator
     Route::resource('comments', CommentsController::class)->middleware('auth', 'checkverified', 'checkstatus');
     Route::get('/trashed-comments', [CommentsController::class, 'trashed'])->name('comments.trashed')->middleware('auth', 'checkverified', 'checkstatus');
     Route::get('/trashed-comments/{comment}', [CommentsController::class, 'restore'])->name('comments.restore')->middleware('auth', 'checkverified', 'checkstatus');
+
+    // import & export routes
+    Route::post('tasks/import/', [TasksController::class, 'import'])->name('tasks.import')->middleware('auth', 'checkverified', 'checkstatus');
 });

@@ -1,8 +1,5 @@
 @extends('layouts.dashboard.app')
 
-@php
-    app()->setLocale('ar');
-@endphp
 
 @section('adminContent')
     <div class="card mb-3" id="customersTable"

@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
 
+
     $('.colorpicker').colorpicker();
 
     $('.btn').on('click' , function(e){
@@ -67,6 +68,12 @@ $(document).ready(function(){
             }
             reader.readAsDataURL(this.files[0]); // convert to base64 string
         }
+    });
+
+
+
+    $(".gummla-search").change(function () {
+        $(this).closest("form").submit();
     });
 
 

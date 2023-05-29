@@ -1,5 +1,6 @@
 @extends('layouts.dashboard.app')
 
+
 @section('adminContent')
     <div class="card mb-3" id="customersTable"
         data-list='{"valueNames":["name","email","phone","address","joined"],"page":10,"pagination":true}'>
@@ -27,6 +28,15 @@
                         </div>
                     </div>
                     <div id="table-customers-replace-element">
+
+                        <form style="display: inline-block" action="{{ route('tasks.import') }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <input class="form-control form-control-sm gummla-search" type="file" name="file"
+                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                data-buttonText="{{ __('Import') }}" required />
+
+                        </form>
 
                         @if (auth()->user()->hasPermission('tasks-create'))
                             <a href="{{ route('tasks.create') }}" class="btn btn-falcon-default btn-sm" type="button"><span
@@ -80,11 +90,11 @@
                                 @endif
 
 
-                                <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
+                                <th class="sort pe-1 align-middle white-space-nowrap" data-sort="tech_update">
                                     {{ __('Tech Update') }}
                                 </th>
 
-                                <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
+                                <th class="sort pe-1 align-middle white-space-nowrap" data-sort="action">
                                     {{ __('Action') }}
                                 </th>
                             </tr>
@@ -120,7 +130,7 @@
                                             data-bs-target="#show-task-{{ $task->id }}">{{ __('show') }}</button>
 
                                     </td>
-                                    <td class="align-middle white-space-nowrap py-2 text-end">
+                                    <td class="joined align-middle white-space-nowrap py-2">
 
                                         <div class="dropdown font-sans-serif position-static">
                                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal"
@@ -159,7 +169,7 @@
                                         </div>
                                     </td>
                                 </tr>
-
+                            @endforeach
                         </tbody>
 
                     </table>
@@ -237,6 +247,16 @@
                                                 </table>
                                             </div>
 
+                                            <div class="mb-3">
+                                                <div class="col-md-12" id="gallery">
+                                                    @foreach ($task->images as $image)
+                                                        <img src="{{ asset('storage/images/tasks/' . $image->image) }}"
+                                                            style="width:100px; border: 1px solid #999"
+                                                            class="img-thumbnail img-prev">
+                                                    @endforeach
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -248,12 +268,8 @@
                             </div>
                         </div>
                     @endforeach
-                @endforeach
-                </tbody>
-
-                </table>
-            @else
-                <h3 class="p-4">{{ __('No tasksTo Show') }}</h3>
+                @else
+                    <h3 class="p-4">{{ __('No tasksTo Show') }}</h3>
                 @endif
             </div>
         </div>

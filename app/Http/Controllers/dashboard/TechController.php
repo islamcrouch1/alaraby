@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Task;
+use App\Models\TaskImage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class TechController extends Controller
 {
@@ -52,6 +55,17 @@ class TechController extends Controller
             'type' => "required|string",
         ]);
 
+
+        if ($files = $request->file('images')) {
+            foreach ($files as $file) {
+                Image::make($file)->save(public_path('storage/images/tasks/' . $file->hashName()), 80);
+                TaskImage::create([
+                    'task_id' => $task->id,
+                    'image' => $file->hashName(),
+                ]);
+            }
+        }
+
         $task->update([
             'cab' => $request['cab'],
             'box' => $request['box'],
@@ -67,6 +81,10 @@ class TechController extends Controller
 
 
         alertSuccess('task updated successfully', 'تم تعديل المهمة بنجاح');
-        return redirect()->route('tech.tasks');
+        if (Auth::user()->hasRole('tech')) {
+            return redirect()->route('tech.tasks');
+        } else {
+            return redirect()->route('tasks.index');
+        }
     }
 }

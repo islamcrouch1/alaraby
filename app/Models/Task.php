@@ -13,7 +13,7 @@ class Task extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'client_name', 'client_phone', 'service_number', 'address', 'compound_id', 'user_id', 'central_id', 'comment_id', 'task_date', 'end_date','box','db','cab','status','cable_type','cable_length','connectors','face_split','type',
+        'client_name', 'client_phone', 'service_number', 'address', 'compound_id', 'user_id', 'central_id', 'comment_id', 'task_date', 'end_date', 'box', 'db', 'cab', 'status', 'cable_type', 'cable_length', 'connectors', 'face_split', 'type',
     ];
 
     public function compound()
@@ -29,6 +29,11 @@ class Task extends Model
     public function comment()
     {
         return $this->belongsTo(Comment::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(TaskImage::class);
     }
 
     public function user()

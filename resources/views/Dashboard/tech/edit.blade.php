@@ -28,10 +28,10 @@
                                     <option value="">
                                         {{ __('select task type') }}
                                     </option>
-                                    <option value="new">
+                                    <option value="new" {{ $task->type == 'new' ? 'selected' : '' }}>
                                         {{ __('new') }}
                                     </option>
-                                    <option value="migration">
+                                    <option value="migration" {{ $task->type == 'migration' ? 'selected' : '' }}>
                                         {{ __('migration') }}
                                     </option>
                                 </select>
@@ -76,10 +76,10 @@
                                     <option value="">
                                         {{ __('select task cable type') }}
                                     </option>
-                                    <option value="patch_cord">
+                                    <option value="patch_cord" {{ $task->cable_type == 'patch_cord' ? 'selected' : '' }}>
                                         {{ __('patch cord') }}
                                     </option>
-                                    <option value="drop_wire">
+                                    <option value="drop_wire" {{ $task->cable_type == 'drop_wire' ? 'selected' : '' }}>
                                         {{ __('drop wire') }}
                                     </option>
                                 </select>
@@ -105,13 +105,13 @@
                                     <option value="">
                                         {{ __('select connectors quantity') }}
                                     </option>
-                                    <option value="1">
+                                    <option value="1" {{ $task->connectors == '1' ? 'selected' : '' }}>
                                         {{ __('1') }}
                                     </option>
-                                    <option value="2">
+                                    <option value="2" {{ $task->connectors == '2' ? 'selected' : '' }}>
                                         {{ __('2') }}
                                     </option>
-                                    <option value="3">
+                                    <option value="3" {{ $task->connectors == '3' ? 'selected' : '' }}>
                                         {{ __('3') }}
                                     </option>
                                 </select>
@@ -147,6 +147,24 @@
                                 @error('comment')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="images">{{ __('images') }}</label>
+                                <input name="images[]" class="imgs form-control @error('images') is-invalid @enderror"
+                                    type="file" id="images" accept="image/*" required multiple />
+                                @error('images')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="col-md-12" id="gallery">
+                                    @foreach ($task->images as $image)
+                                        <img src="{{ asset('storage/images/tasks/' . $image->image) }}"
+                                            style="width:100px; border: 1px solid #999" class="img-thumbnail img-prev">
+                                    @endforeach
+                                </div>
                             </div>
 
 
