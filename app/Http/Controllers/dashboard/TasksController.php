@@ -228,4 +228,9 @@ class TasksController extends Controller
             return redirect()->back();
         }
     }
+
+    public function export(Request $request) 
+    {
+        return Excel::download(new TasksExport, 'tasks.xlsx');
+    }
 }

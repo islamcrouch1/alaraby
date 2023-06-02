@@ -47,6 +47,17 @@ class TasksImport implements
             'central' => "required|string",
             'tech_name' => "required|string",
             'task_date' => "required|numeric_or_string",
+            'type' => "nullable|string",
+            'db' => "nullable|numeric",
+            'box' => "nullable|string",
+            'cab' => "nullable|string",
+            'cable_length' => "nullable|numeric",
+            'cable_type' => "nullable|string",
+            'connectors' => "nullable|string",
+            'face_split' => "nullable|numeric",
+            'comment' => "nullable|string",
+
+
         ];
     }
 
@@ -69,6 +80,17 @@ class TasksImport implements
                 'central' => "required|string",
                 'tech_name' => "required|string",
                 'task_date' => "required|numeric_or_string",
+                'type' => "nullable|numeric_or_string",
+                'db' => "nullable|numeric",
+                'box' => "nullable|string",
+                'cab' => "nullable|string",
+                'cable_length' => "nullable|numeric",
+                'cable_type' => "nullable|numeric_or_string",
+                'connectors' => "nullable|string",
+                'face_split' => "nullable|numeric",
+                'comment' => "nullable|string",
+
+                
             ])->validate();
 
 
@@ -124,6 +146,16 @@ class TasksImport implements
                 'central_id' => $central_id,
                 'task_date' => $task_date,
                 'end_date' => $end_date,
+                'type' => $row['type'],
+                'db' => $row['db'],
+                'box' =>$row['box'],
+                'cab' => $row['cab'],
+                'cable_length' => $row['cable_length'],
+                'cable_type' => $row['cable_type'],
+                'connectors' => $row['connectors'],
+                'face_split' =>$row['face_split'],
+                'comment' => $row['comment'],
+
             ]);
         }
     }

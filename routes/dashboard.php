@@ -58,4 +58,5 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['role:superadministrator
 
     // import & export routes
     Route::post('tasks/import/', [TasksController::class, 'import'])->name('tasks.import')->middleware('auth', 'checkverified', 'checkstatus');
+    Route::get('tasks/export/', [TasksController::class, 'export'])->name('tasks.export');
 });
