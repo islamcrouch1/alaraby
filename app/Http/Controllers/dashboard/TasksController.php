@@ -27,10 +27,28 @@ class TasksController extends Controller
         $this->middleware('permission:tasks-restore')->only('restore');
     }
 
-    public function index()
+    public function index(Request $request)
     {
 
-        $tasks = task::whenSearch(request()->search)
+
+        if (!$request->has('from') || !$request->has('to')) {
+            $request->merge(['from' => Carbon::now()->subDay(30)->toDateString()]);
+            $request->merge(['to' => Carbon::now()->toDateString()]);
+        }
+
+
+        if (!$request->has('activation_from') || !$request->has('activation_to')) {
+            $request->merge(['activation_from' => Carbon::now()->subDay(30)->toDateString()]);
+            $request->merge(['activation_to' => Carbon::now()->toDateString()]);
+        }
+
+        // dd(request()->payment_status);
+
+        $tasks = task::whereDate('task_date', '>=', request()->from)
+            ->whereDate('task_date', '<=', request()->to)
+            ->whenSearch(request()->search)
+            ->whenStatus(request()->status)
+            ->whenPaymentStatus(request()->payment_status)
             ->latest()
             ->paginate(100);
 
@@ -145,12 +163,22 @@ class TasksController extends Controller
             'central' => "required|integer",
             'tech' => "required|integer",
             'task_date' => "required|string",
+            'status' => "nullable|string",
+            'payment_status' => "nullable|integer",
         ]);
 
 
 
         $date = Carbon::parse($request->task_date);
         $date = $date->addDay();
+
+        if (isset($request['status']) &&  $request['status'] == 'active' && $task->status != 'active') {
+            $activation_date = Carbon::now()->toDateTimeString();
+        } elseif ($task->status == 'active' && $request['status'] != 'inactive') {
+            $activation_date = $task->activation_date;
+        } else {
+            $activation_date = null;
+        }
 
         $task->update([
             'client_name' => $request['client_name'],
@@ -161,7 +189,10 @@ class TasksController extends Controller
             'user_id' => $request['tech'],
             'central_id' => $request['central'],
             'task_date' => $request['task_date'],
-            'end_date' => $date->toDateString(),
+            'end_date' => $date->toDateTimeString(),
+            'status' => $request['status'],
+            'activation_date' => $activation_date,
+            'payment_status' => $request['payment_status'],
 
         ]);
 
@@ -229,7 +260,7 @@ class TasksController extends Controller
         }
     }
 
-    public function export(Request $request) 
+    public function export(Request $request)
     {
         return Excel::download(new TasksExport, 'tasks.xlsx');
     }

@@ -161,6 +161,20 @@ if (!function_exists('getTasksCount')) {
 }
 
 
+if (!function_exists('getActiveTasksCount')) {
+    function getActiveTasksCount()
+    {
+        return Task::where('status', 'active')->get()->count();
+    }
+}
+
+if (!function_exists('getUpdatedTasksCount')) {
+    function getUpdatedTasksCount()
+    {
+        return Task::whereNotNull('cab')->count();
+    }
+}
+
 if (!function_exists('getName')) {
     function getName($item)
     {

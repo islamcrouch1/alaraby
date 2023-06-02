@@ -48,18 +48,20 @@
                                 <label class="form-label" for="client_phone">{{ __('client pohne') }}</label>
                                 <input name="client_phone" class="form-control @error('client_phone') is-invalid @enderror"
                                     value="{{ $task->client_phone }}" type="number" autocomplete="on" id="client_phone"
-                                    autofocus required />
+                                    required />
                                 @error('client_phone')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
+
+
                             <div class="mb-3">
                                 <label class="form-label" for="service_number">{{ __('service number') }}</label>
                                 <input name="service_number"
                                     class="form-control @error('service_number') is-invalid @enderror"
-                                    value="{{ $task->service_number }}" type="number" autocomplete="on"
-                                    id="service_number" autofocus required />
+                                    value="{{ $task->service_number }}" type="text" autocomplete="on"
+                                    id="service_number" required />
                                 @error('service_number')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -69,7 +71,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="address">{{ __('address') }}</label>
                                 <input name="address" class="form-control @error('address') is-invalid @enderror"
-                                    value="{{ $task->address }}" type="text" autocomplete="on" id="address" autofocus
+                                    value="{{ $task->address }}" type="text" autocomplete="on" id="address"
                                     required />
                                 @error('address')
                                     <div class="alert alert-danger">{{ $message }}</div>
@@ -125,6 +127,48 @@
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                            @if ($task->cab != null)
+                                <div class="mb-3">
+                                    <label class="form-label" for="central">{{ __('status') }}</label>
+
+                                    <select class="form-select @error('status') is-invalid @enderror" name="status">
+                                        <option value="">
+                                            {{ __('select status') }}
+                                        </option>
+                                        <option value="active" {{ $task->status == 'active' ? 'selected' : '' }}>
+                                            {{ __('active') }}
+                                        </option>
+                                        <option value="inactive" {{ $task->status == 'inactive' ? 'selected' : '' }}>
+                                            {{ __('inactive') }}
+                                        </option>
+                                    </select>
+                                    @error('status')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="central">{{ __('payment status') }}</label>
+                                    <select class="form-select @error('payment_status') is-invalid @enderror"
+                                        name="payment_status">
+                                        <option value="">
+                                            {{ __('select payment status') }}
+                                        </option>
+                                        <option value="1" {{ $task->payment_status == '1' ? 'selected' : '' }}>
+                                            {{ __('paid') }}
+                                        </option>
+                                        <option value="2" {{ $task->payment_status == '2' ? 'selected' : '' }}>
+                                            {{ __('unpaid') }}
+                                        </option>
+                                    </select>
+                                    @error('payment_status')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            @endif
+
+
 
 
 

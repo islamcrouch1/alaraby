@@ -8,9 +8,9 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 class TasksExports implements FromCollection, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
-    
+     * @return \Illuminate\Support\Collection
+     */
+
 
 
     use Exportable;
@@ -20,29 +20,28 @@ class TasksExports implements FromCollection, WithHeadings
     public function __construct($task)
     {
         $this->task    = $task;
-        
     }
 
     public function headings(): array
     {
         return [
-            'client_name' ,
-                'client_phone' ,
-                'service_number' ,
-                'address' ,
-                'compound' ,
-                'central' ,
-                'tech_name' ,
-                'task_date' ,
-                'type' ,
-                'db' ,
-                'box' ,
-                'cab' ,
-                'cable_length',
-                'cable_type' ,
-                'connectors' ,
-                'face_split' ,
-                'comment',
+            'client_name',
+            'client_phone',
+            'service_number',
+            'address',
+            'compound',
+            'central',
+            'tech_name',
+            'task_date',
+            'type',
+            'db',
+            'box',
+            'cab',
+            'cable_length',
+            'cable_type',
+            'connectors',
+            'face_split',
+            'comment',
 
         ];
     }
@@ -54,5 +53,4 @@ class TasksExports implements FromCollection, WithHeadings
     {
         return Task::all();
     }
-
 }

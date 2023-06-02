@@ -29,6 +29,8 @@
                     </div>
                     <div id="table-customers-replace-element">
 
+
+
                         <form style="display: inline-block" action="{{ route('tasks.import') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
@@ -38,9 +40,14 @@
 
                         </form>
 
+                        <a href="" data-bs-toggle="modal" data-bs-target="#filter-modal"
+                            class="btn btn-falcon-default btn-sm"><span class="fas fa-filter"
+                                data-fa-transform="shrink-3 down-2"></span><span
+                                class="d-none d-sm-inline-block ms-1">{{ __('Filter') }}</span></a>
+
                         @if (auth()->user()->hasPermission('tasks-create'))
-                            <a href="{{ route('tasks.create') }}" class="btn btn-falcon-default btn-sm" type="button"><span
-                                    class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span
+                            <a href="{{ route('tasks.create') }}" class="btn btn-falcon-default btn-sm"
+                                type="button"><span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span
                                     class="d-none d-sm-inline-block ms-1">{{ __('New') }}</span></a>
                         @endif
                         <a href="{{ route('tasks.trashed') }}" class="btn btn-falcon-default btn-sm" type="button"><span
@@ -77,10 +84,11 @@
                                     {{ __('Service Number') }}
                                 </th>
                                 <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
+                                    {{ __('Status') }}
+                                </th>
+                                <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
                                     {{ __('Task Date') }}
                                 </th>
-
-
 
                                 <th class="sort pe-1 align-middle white-space-nowrap" style="min-width: 100px;"
                                     data-sort="joined">{{ __('Created at') }}</th>
@@ -89,10 +97,11 @@
                                         data-sort="joined">{{ __('Deleted at') }}</th>
                                 @endif
 
-
                                 <th class="sort pe-1 align-middle white-space-nowrap" data-sort="tech_update">
                                     {{ __('Tech Update') }}
                                 </th>
+
+
 
                                 <th class="sort pe-1 align-middle white-space-nowrap" data-sort="action">
                                     {{ __('Action') }}
@@ -114,6 +123,19 @@
                                     <td class="joined align-middle py-2">{{ $task->client_name }} </td>
                                     <td class="joined align-middle py-2">{{ $task->client_phone }} </td>
                                     <td class="joined align-middle py-2">{{ $task->service_number }} </td>
+                                    <td class="joined align-middle py-2">
+                                        @if ($task->status == 'active')
+                                            <span class="badge badge-soft-success ">{{ __('active') }}</span>
+                                        @elseif ($task->status == 'inactive' || $task->status == null)
+                                            <span class="badge badge-soft-danger ">{{ __('inactive') }}</span>
+                                        @endif
+
+                                        @if ($task->payment_status == 1)
+                                            <span class="badge badge-soft-success ">{{ __('paid') }}</span>
+                                        @elseif ($task->payment_status == 2)
+                                            <span class="badge badge-soft-danger ">{{ __('unpaid') }}</span>
+                                        @endif
+                                    </td>
                                     <td class="joined align-middle py-2">{{ $task->task_date }} <br>
                                         {{ interval2($task->task_date) }} </td>
 
@@ -124,12 +146,14 @@
                                             {{ interval($task->deleted_at) }} </td>
                                     @endif
                                     <td class="joined align-middle py-2">
-
-                                        <button class="btn btn-outline-success me-1 mb-1" type="button"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#show-task-{{ $task->id }}">{{ __('show') }}</button>
-
+                                        @if ($task->cab != null)
+                                            <button class="btn btn-outline-success me-1 mb-1" type="button"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#show-task-{{ $task->id }}">{{ __('show') }}
+                                            </button>
+                                        @endif
                                     </td>
+
                                     <td class="joined align-middle white-space-nowrap py-2">
 
                                         <div class="dropdown font-sans-serif position-static">
@@ -150,7 +174,7 @@
                                                             href="{{ route('tasks.edit', ['task' => $task->id]) }}">{{ __('Edit') }}</a>
                                                     @endif
 
-                                                    @if (auth()->user()->hasPermission('tasks-update'))
+                                                    @if (auth()->user()->hasPermission('tasks-update') && $task->cab != null)
                                                         <a class="dropdown-item"
                                                             href="{{ route('tech.edit', ['task' => $task->id]) }}">{{ __('Edit tech update') }}</a>
                                                     @endif
@@ -280,4 +304,111 @@
         </div>
 
     </div>
+
+
+
+    <!-- start filter modal -->
+    <div class="modal fade" id="filter-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 60%">
+            <div class="modal-content position-relative">
+                <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                    <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="">
+                    <div class="modal-body p-0">
+                        <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                            <h4 class="mb-1" id="modalExampleDemoLabel">
+                                {{ __('search filters') }}</h4>
+                        </div>
+                        <div class="p-4 pb-0">
+
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <input class="form-control search-input fuzzy-search" type="search"
+                                        value="{{ request()->search }}" name="search" autofocus
+                                        placeholder="{{ __('Search...') }}" />
+                                </div>
+
+
+                                <div class="col-md-12 mb-1">
+                                    <label for="">{{ __('task date') }}</label>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="input-group"><span class="input-group-text"
+                                            id="from">{{ __('From') }}</span>
+                                        <input type="date" id="from" name="from" class="form-control"
+                                            value="{{ request()->from }}">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="input-group"><span class="input-group-text"
+                                            id="to">{{ __('To') }}</span>
+                                        <input type="date" id="to" name="to" class="form-control"
+                                            value="{{ request()->to }}">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-1">
+                                    <label for="">{{ __('activation date') }}</label>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="input-group"><span class="input-group-text"
+                                            id="from">{{ __('From') }}</span>
+                                        <input type="date" id="from" name="activation_from" class="form-control"
+                                            value="{{ request()->activation_from }}">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="input-group"><span class="input-group-text"
+                                            id="to">{{ __('To') }}</span>
+                                        <input type="date" id="to" name="activation_to" class="form-control"
+                                            value="{{ request()->activation_to }}">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3 mb-3">
+                                    <select name="status" class="form-select">
+                                        <option value="">{{ __('All Status') }}</option>
+                                        <option value="active" {{ request()->status == 'active' ? 'selected' : '' }}>
+                                            {{ __('active') }}</option>
+                                        <option value="inactive" {{ request()->status == 'inactive' ? 'selected' : '' }}>
+                                            {{ __('inactive') }}</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <select name="payment_status" class="form-select">
+                                        <option value="">{{ __('payment status') }}</option>
+                                        <option value="1" {{ request()->payment_status == '1' ? 'selected' : '' }}>
+                                            {{ __('paid') }}</option>
+                                        <option value="2" {{ request()->payment_status == '2' ? 'selected' : '' }}>
+                                            {{ __('unpaid') }}</option>
+
+                                    </select>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button"
+                            data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <button class="btn btn-primary" type="submit">{{ __('Apply') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end filter modal -->
+
 @endsection

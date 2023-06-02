@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Central;
+use App\Models\Comment;
 use App\Models\Compound;
 use App\Models\Task;
 use App\Models\User;
@@ -47,10 +48,12 @@ class TasksImport implements
             'central' => "required|string",
             'tech_name' => "required|string",
             'task_date' => "required|numeric_or_string",
+
+
             'type' => "nullable|string",
             'db' => "nullable|numeric",
-            'box' => "nullable|string",
-            'cab' => "nullable|string",
+            'box' => "nullable|numeric_or_string",
+            'cab' => "nullable|numeric_or_string",
             'cable_length' => "nullable|numeric",
             'cable_type' => "nullable|string",
             'connectors' => "nullable|string",
@@ -80,17 +83,19 @@ class TasksImport implements
                 'central' => "required|string",
                 'tech_name' => "required|string",
                 'task_date' => "required|numeric_or_string",
+
+
                 'type' => "nullable|numeric_or_string",
                 'db' => "nullable|numeric",
-                'box' => "nullable|string",
-                'cab' => "nullable|string",
+                'box' => "nullable|numeric_or_string",
+                'cab' => "nullable|numeric_or_string",
                 'cable_length' => "nullable|numeric",
                 'cable_type' => "nullable|numeric_or_string",
                 'connectors' => "nullable|string",
                 'face_split' => "nullable|numeric",
                 'comment' => "nullable|string",
 
-                
+
             ])->validate();
 
 
@@ -127,6 +132,21 @@ class TasksImport implements
             }
             $central_id = $central->id;
 
+
+            if (isset($row['comment'])) {
+                $comment = Comment::where('name_ar', $row['comment'])->orWhere('name_en', $row['comment'])->first();
+                if (!isset($central->id)) {
+                    $comment = Comment::create([
+                        'name_ar' => $row['comment'],
+                        'name_en' => $row['comment'],
+                    ]);
+                }
+                $comment_id = $comment->id;
+            } else {
+                $comment_id = null;
+            }
+
+
             $task_date = Carbon::parse($row['task_date']);
             $task_date = $task_date->toDateTimeString();
 
@@ -146,15 +166,17 @@ class TasksImport implements
                 'central_id' => $central_id,
                 'task_date' => $task_date,
                 'end_date' => $end_date,
-                'type' => $row['type'],
-                'db' => $row['db'],
-                'box' =>$row['box'],
-                'cab' => $row['cab'],
-                'cable_length' => $row['cable_length'],
-                'cable_type' => $row['cable_type'],
-                'connectors' => $row['connectors'],
-                'face_split' =>$row['face_split'],
-                'comment' => $row['comment'],
+
+                'type' => isset($row['type']) ? $row['type'] : null,
+                'db' => isset($row['db']) ? $row['db'] : null,
+                'box' => isset($row['box']) ? $row['box'] : null,
+                'cab' => isset($row['cab']) ? $row['cab'] : null,
+                'cable_length' => isset($row['cable_length']) ? $row['cable_length'] : null,
+                'cable_type' => isset($row['cable_type']) ? $row['cable_type'] : null,
+                'connectors' => isset($row['connectors']) ? $row['connectors'] : null,
+                'face_split' => isset($row['face_split']) ? $row['face_split'] : null,
+
+                'comment_id' => $comment_id,
 
             ]);
         }

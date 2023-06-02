@@ -41,7 +41,7 @@
                                             class="fas fa-user"></span></span><span
                                         class="nav-link-text ps-1">{{ __('Users') }}</span>
                                     <span
-                                        class="badge badge-soft-primary">{{ \app\models\User::all()->count() - 1 }}</span>
+                                        class="badge badge-soft-primary m-1">{{ \app\models\User::all()->count() - 1 }}</span>
                                 </div>
                             </a>
                         @endif
@@ -71,7 +71,7 @@
                                     <span class="nav-link-text ps-1">
                                         {{ __('Centrals') }}
                                     </span>
-                                    <span class="badge badge-soft-primary">
+                                    <span class="badge badge-soft-primary m-1">
                                         {{ getCentralsCount() }}
                                     </span>
                                 </div>
@@ -130,8 +130,16 @@
                                     <span class="nav-link-text ps-1">
                                         {{ __('tasks') }}
                                     </span>
-                                    <span class="badge badge-soft-primary">
+                                    <span class="badge badge-soft-primary m-1">
                                         {{ getTasksCount() }}
+                                    </span>
+
+                                    <span class="badge badge-soft-success m-1">
+                                        {{ getActiveTasksCount() }}
+                                    </span>
+
+                                    <span class="badge badge-soft-info m-1">
+                                        {{ getUpdatedTasksCount() }}
                                     </span>
                                 </div>
                             </a>
