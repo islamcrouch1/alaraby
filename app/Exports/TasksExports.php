@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Task;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class TasksExports implements FromCollection, WithHeadings

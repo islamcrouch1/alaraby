@@ -77,6 +77,10 @@ $(document).ready(function(){
     });
 
 
+    $(".import-tasks").change(function () {
+        $(".form_class").submit();
+    });
+
 
     $(".imgs").change(function() {
         if (this.files) {

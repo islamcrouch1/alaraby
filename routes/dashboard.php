@@ -45,6 +45,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['role:superadministrator
     Route::resource('tasks', TasksController::class)->middleware('auth', 'checkverified', 'checkstatus');
     Route::get('/trashed-tasks', [TasksController::class, 'trashed'])->name('tasks.trashed')->middleware('auth', 'checkverified', 'checkstatus');
     Route::get('/trashed-tasks/{task}', [TasksController::class, 'restore'])->name('tasks.restore')->middleware('auth', 'checkverified', 'checkstatus');
+    Route::get('/delete-task/{task}', [TasksController::class, 'destroy'])->name('tasks.del')->middleware('auth', 'checkverified', 'checkstatus');
 
     // compounds route
     Route::resource('compounds', CompoundsController::class)->middleware('auth', 'checkverified', 'checkstatus');
@@ -61,6 +62,5 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['role:superadministrator
     Route::get('tasks/export/', [TasksController::class, 'export'])->name('tasks.export');
 
     // bulk  action
-    Route::post('/tasks/bulk-action', 'TasksController@bulkAction')->name('tasks.bulk-action');
-
+    Route::post('/tasks/bulk-action', [TasksController::class, 'bulkAction'])->name('tasks.bulk-action');
 });

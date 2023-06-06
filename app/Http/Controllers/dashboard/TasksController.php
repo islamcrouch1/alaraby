@@ -267,18 +267,43 @@ class TasksController extends Controller
 
 
     public function bulkAction(Request $request)
-{
-    $selectedItems = $request->input('selectedItems', []);
-    $action = $request->input('action');
+    {
+        $request->validate([
+            'bulk_option' => "required|string|max:255",
+            'items' => "nullable|array",
+        ]);
 
-    // Perform the selected action on the items
-    if ($action === 'active') {
-        Task::whereIn('status', $selectedItems)->update(['status' => 'active']);
-    } elseif ($action === 'inactive') {
-        Task::whereIn('status', $selectedItems)->update(['status' => 'inactive']);
+        foreach ($request->items as $item) {
+
+            $task = Task::findOrFail($item);
+
+            if ($task->cab != null && ($request['bulk_option'] == 'active' || $request['bulk_option'] == 'inactive')) {
+
+                if (isset($request['bulk_option']) &&  $request['bulk_option'] == 'active' && $task->status != 'active') {
+                    $activation_date = Carbon::now()->toDateTimeString();
+                } elseif ($task->status == 'active' && $request['bulk_option'] != 'inactive') {
+                    $activation_date = $task->activation_date;
+                } else {
+                    $activation_date = null;
+                }
+
+
+                $task->update([
+
+                    'status' => $request['bulk_option'],
+                    'activation_date' => $activation_date,
+                    // 'payment_status' => $request['payment_status'],
+
+                ]);
+            } elseif ($task->cab != null && ($request['bulk_option'] == 'paid' || $request['bulk_option'] == 'unpaid')) {
+                $task->update([
+                    'payment_status' => $request['bulk_option'] == 'paid' ? 1 : 2,
+                ]);
+            }
+        }
+
+
+        alertSuccess('tasks updated successfully', 'تم التعديل بنجاح');
+        return redirect()->route('tasks.index');
     }
-
-    // Redirect back or show a success message
-    return redirect()->route('tasks.index');
-}
 }
