@@ -264,4 +264,21 @@ class TasksController extends Controller
     {
         return Excel::download(new TasksExport, 'tasks.xlsx');
     }
+
+
+    public function bulkAction(Request $request)
+{
+    $selectedItems = $request->input('selectedItems', []);
+    $action = $request->input('action');
+
+    // Perform the selected action on the items
+    if ($action === 'active') {
+        Task::whereIn('status', $selectedItems)->update(['status' => 'active']);
+    } elseif ($action === 'inactive') {
+        Task::whereIn('status', $selectedItems)->update(['status' => 'inactive']);
+    }
+
+    // Redirect back or show a success message
+    return redirect()->route('tasks.index');
+}
 }

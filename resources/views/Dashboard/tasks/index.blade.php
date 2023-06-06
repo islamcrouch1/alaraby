@@ -15,18 +15,46 @@
                         @endif
                     </h5>
                 </div>
+
+                <form method="POST" action="{{ route('tasks.bulk-action') }}">
+                    @csrf
+                
+                    {{-- <!-- Display a list of items with checkboxes -->
+                    @foreach($items as $item)
+                        <div>
+                            <input type="checkbox" name="selectedItems[]" value="{{ $item->id }}">
+                            {{ $item->name }}
+                        </div>
+                    @endforeach --}}
+                
+                    <!-- Dropdown for action selection -->
+                    {{-- <select name="action">
+                        <option value="delete">Delete</option>
+                        <option value="mark_as_completed">Mark as Completed</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                
+                    <button type="submit">Perform Action</button> --}}
+               
+
+
+
                 <div class="col-8 col-sm-auto text-end ps-2">
                     <div class="d-none" id="table-customers-actions">
                         <div class="d-flex">
                             <select class="form-select form-select-sm" aria-label="Bulk actions">
                                 <option selected="">{{ __('Bulk actions') }}</option>
-                                <option value="Refund">{{ __('Refund') }}</option>
-                                <option value="Delete">{{ __('Delete') }}</option>
-                                <option value="Archive">{{ __('Archive') }}</option>
+                                <option value="active">{{ __('Active') }}</option>
+                                <option value="inactive">{{ __('not Active') }}</option>
+                                <option value="Archive">{{ __(' Paid') }}</option>
+                                <option value="Archive">{{ __('Non-Paid') }}</option>
+                               
+                              
                             </select>
                             <button class="btn btn-falcon-default btn-sm ms-2" type="button">{{ __('Apply') }}</button>
                         </div>
                     </div>
+                </form>
                     <div id="table-customers-replace-element">
 
 
@@ -89,6 +117,9 @@
                                 <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
                                     {{ __('Task Date') }}
                                 </th>
+                                <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
+                                    {{ __('Task Activated Date') }}
+                                </th>
 
                                 <th class="sort pe-1 align-middle white-space-nowrap" style="min-width: 100px;"
                                     data-sort="joined">{{ __('Created at') }}</th>
@@ -138,6 +169,9 @@
                                     </td>
                                     <td class="joined align-middle py-2">{{ $task->task_date }} <br>
                                         {{ interval2($task->task_date) }} </td>
+                                        <td class="joined align-middle py-2">{{ $task->activation_date,
+                                        }} <br>
+                                            {{ interval2($task->activation_date) }} </td>
 
                                     <td class="joined align-middle py-2">{{ $task->created_at }} <br>
                                         {{ interval($task->created_at) }} </td>
