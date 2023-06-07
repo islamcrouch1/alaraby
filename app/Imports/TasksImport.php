@@ -56,7 +56,7 @@ class TasksImport implements
             'cab' => "nullable|numeric_or_string",
             'cable_length' => "nullable|numeric",
             'cable_type' => "nullable|string",
-            'connectors' => "nullable|string",
+            'connectors' => "nullable|numeric_or_string",
             'face_split' => "nullable|numeric",
             'comment' => "nullable|string",
 
@@ -91,7 +91,7 @@ class TasksImport implements
                 'cab' => "nullable|numeric_or_string",
                 'cable_length' => "nullable|numeric",
                 'cable_type' => "nullable|numeric_or_string",
-                'connectors' => "nullable|string",
+                'connectors' => "nullable|numeric_or_string",
                 'face_split' => "nullable|numeric",
                 'comment' => "nullable|string",
 
@@ -135,7 +135,7 @@ class TasksImport implements
 
             if (isset($row['comment'])) {
                 $comment = Comment::where('name_ar', $row['comment'])->orWhere('name_en', $row['comment'])->first();
-                if (!isset($central->id)) {
+                if (!isset($comment->id)) {
                     $comment = Comment::create([
                         'name_ar' => $row['comment'],
                         'name_en' => $row['comment'],

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->string('status')->default('active');
+            $table->string('status')->default('inactive');
             $table->string('db')->nullable();
             $table->string('box')->nullable();
             $table->string('cab')->nullable();
