@@ -107,6 +107,9 @@
                                         {{ __('Service Number') }}
                                     </th>
                                     <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
+                                        {{ __('Technician Name') }}
+                                    </th>
+                                    <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
                                         {{ __('Status') }}
                                     </th>
                                     <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
@@ -150,6 +153,7 @@
                                         <td class="joined align-middle py-2">{{ $task->client_name }} </td>
                                         <td class="joined align-middle py-2">{{ $task->client_phone }} </td>
                                         <td class="joined align-middle py-2">{{ $task->service_number }} </td>
+                                        <td class="joined align-middle py-2">{{ $task->user->name }} </td>
                                         <td class="joined align-middle py-2">
                                             @if ($task->status == 'active')
                                                 <span class="badge badge-soft-success ">{{ __('active') }}</span>

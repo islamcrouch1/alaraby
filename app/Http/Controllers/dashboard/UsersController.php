@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Central;
 
 use App\Models\Role;
+use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -439,5 +440,42 @@ class UsersController extends Controller
         } else {
             return back();
         }
+    }
+
+
+    public function show(Request $request, User $user)
+    {
+
+
+        if (!$request->has('from') || !$request->has('to')) {
+            $request->merge(['from' => Carbon::now()->subDay(30)->toDateString()]);
+            $request->merge(['to' => Carbon::now()->toDateString()]);
+        }
+
+
+        if (!$request->has('activation_from') || !$request->has('activation_to')) {
+            $request->merge(['activation_from' => Carbon::now()->subDay(30)->toDateString()]);
+            $request->merge(['activation_to' => Carbon::now()->toDateString()]);
+        }
+
+        // dd(request()->from, request()->to);
+
+        $tasks = Task::where('user_id', $user->id)
+            ->whereDate('task_date', '>=', request()->from)
+            ->whereDate('task_date', '<=', request()->to)
+            ->where(function ($q) {
+                $q->whereDate('activation_date', '>=', request()->activation_from)
+                    ->orWhereNull('activation_date');
+            })
+            ->where(function ($q) {
+                $q->whereDate('activation_date', '<=', request()->activation_to)
+                    ->orWhereNull('activation_date');
+            })
+            ->whenSearch(request()->search)
+            ->whenStatus(request()->status)
+            ->whenPaymentStatus(request()->payment_status)
+            ->latest()
+            ->paginate(100);
+        return view('dashboard.users.show', compact('user', 'tasks'));
     }
 }

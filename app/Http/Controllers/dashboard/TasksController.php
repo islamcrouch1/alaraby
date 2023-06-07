@@ -47,7 +47,7 @@ class TasksController extends Controller
 
         // dd(request()->from, request()->to);
 
-        $tasks = task::whereDate('task_date', '>=', request()->from)
+        $tasks = Task::whereDate('task_date', '>=', request()->from)
             ->whereDate('task_date', '<=', request()->to)
             ->where(function ($q) {
                 $q->whereDate('activation_date', '>=', request()->activation_from)
