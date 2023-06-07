@@ -148,6 +148,7 @@
                                     @enderror
                                 </div>
 
+
                                 <div class="mb-3">
                                     <label class="form-label" for="central">{{ __('payment status') }}</label>
                                     <select class="form-select @error('payment_status') is-invalid @enderror"

@@ -2,8 +2,7 @@
 
     <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3" type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false"
-        aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
-                class="toggle-line"></span></span></button>
+        aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
     <a class="navbar-brand me-1 me-sm-3" href="{{ route('home') }}">
         <div class="d-flex align-items-center"><img class="me-2" src="{{ asset('assets/img/logo-blue.png') }}"
                 alt="" width="150" />
@@ -13,9 +12,8 @@
         <li class="nav-item">
             <div class="search-box" data-list='{"valueNames":["title"]}'>
                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                    <input class="form-control search-input fuzzy-search" type="search"
-                        value="{{ request()->search }}" name="search" autofocus placeholder="Search..."
-                        aria-label="Search" />
+                    <input class="form-control search-input fuzzy-search" type="search" value="{{ request()->search }}"
+                        name="search" autofocus placeholder="Search..." aria-label="Search" />
                     <span class="fas fa-search search-box-icon"></span>
 
                 </form>
@@ -23,7 +21,7 @@
         </li>
     </ul>
     <ul class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
-        {{-- <li class="nav-item">
+        <li class="nav-item">
             <div class="theme-control-toggle fa-icon-wait px-2">
                 <a style="text-decoration: none" href="{{ route('setlocale') }}">
                     <div
@@ -34,7 +32,7 @@
                 </a>
 
             </div>
-        </li> --}}
+        </li>
         <li class="nav-item">
             <div class="theme-control-toggle fa-icon-wait px-2">
                 <input class="form-check-input ms-0 theme-control-toggle-input" id="themeControlToggle" type="checkbox"
@@ -88,8 +86,7 @@
                         <div class="list-group list-group-flush fw-normal fs--1">
                             <div class="list-group-title border-bottom">NEW</div>
                             <div class="noty-list">
-                                @foreach (Auth::user()->notifications()->where('status', 0)->orderBy('id', 'desc')->limit(50)->get()
-                                as $notification)
+                                @foreach (Auth::user()->notifications()->where('status', 0)->orderBy('id', 'desc')->limit(50)->get() as $notification)
                                     <div class="list-group-item">
                                         <a class="notification notification-flush notification-unread noty"
                                             href="{{ $notification->url }}"
@@ -122,8 +119,7 @@
                             </div>
 
                             <div class="list-group-title border-bottom">EARLIER</div>
-                            @foreach (Auth::user()->notifications()->where('status', 1)->orderBy('id', 'desc')->limit(50)->get()
-    as $notification)
+                            @foreach (Auth::user()->notifications()->where('status', 1)->orderBy('id', 'desc')->limit(50)->get() as $notification)
                                 <div class="list-group-item">
                                     <a class="notification notification-flush noty" href="{{ $notification->url }}"
                                         data-url="{{ route('notifications.change', ['notification' => $notification->id]) }}">
@@ -175,14 +171,14 @@
 
                     {{-- <div class="dropdown-divider"></div> --}}
                     <a class="dropdown-item" href="{{ route('user.edit') }}">Profile &amp; account</a>
-                    <a class="dropdown-item"
-                        href="{{ route('notifications.index') }}">{{ __('Notifications') }}</a>
+                    <a class="dropdown-item" href="{{ route('notifications.index') }}">{{ __('Notifications') }}</a>
                     <a class="dropdown-item" href="{{ route('messages.index') }}">{{ __('Messages') }}</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
                         <x-dropdown-link :href="route('logout')" class="dropdown-item"
-                            style="padding-left:1rem !important; padding-left:1rem !important" onclick="event.preventDefault();
+                            style="padding-left:1rem !important; padding-left:1rem !important"
+                            onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                             {{ __('Logout') }}
                         </x-dropdown-link>

@@ -59,11 +59,6 @@
                             </div>
                         </div>
                         <div id="table-customers-replace-element">
-
-
-
-
-
                             <a href="" data-bs-toggle="modal" data-bs-target="#filter-modal"
                                 class="btn btn-falcon-default btn-sm"><span class="fas fa-filter"
                                     data-fa-transform="shrink-3 down-2"></span><span
@@ -78,9 +73,10 @@
                             <a href="{{ route('tasks.trashed') }}" class="btn btn-falcon-default btn-sm"
                                 type="button"><span class="fas fa-trash" data-fa-transform="shrink-3 down-2"></span><span
                                     class="d-none d-sm-inline-block ms-1">{{ __('Trash') }}</span></a>
-                            <button class="btn btn-falcon-default btn-sm" type="button"><span
-                                    class="fas fa-external-link-alt" data-fa-transform="shrink-3 down-2"></span><span
-                                    class="d-none d-sm-inline-block ms-1">{{ __('Export') }}</span></button>
+                            <a href="{{ route('tasks.export', ['status' => request()->status, 'payment_status' => request()->payment_status, 'from' => request()->from, 'to' => request()->to, 'activation_from' => request()->activation_from, 'activation_to' => request()->activation_to]) }}"
+                                class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt"
+                                    data-fa-transform="shrink-3 down-2"></span><span
+                                    class="d-none d-sm-inline-block ms-1">{{ __('Export') }}</span></a>
                         </div>
                     </div>
                 </div>

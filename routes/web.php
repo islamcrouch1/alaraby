@@ -18,6 +18,12 @@ Route::get('/', function () {
 });
 
 
+Route::get('/setlocale', function () {
+    setLocaleBySession();
+    return redirect()->back();
+})->name('setlocale');
+
+
 require __DIR__ . '/auth.php';
 require __DIR__ . '/dashboard.php';
 require __DIR__ . '/user.php';

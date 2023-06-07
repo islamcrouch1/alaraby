@@ -2,10 +2,9 @@
 
 use App\Models\Task;
 use App\Models\Central;
+use App\Models\User;
 use Carbon\Carbon;
-
-
-
+use Illuminate\Support\Facades\Auth;
 
 // calculate date
 if (!function_exists('interval')) {
@@ -157,6 +156,24 @@ if (!function_exists('getTasksCount')) {
     function getTasksCount()
     {
         return Task::all()->count();
+    }
+}
+
+
+// set localizaition in session
+if (!function_exists('setLocaleBySession')) {
+    function setLocaleBySession()
+    {
+
+        if (Auth::check()) {
+            $user = User::findOrFail(Auth::id());
+
+            $user->update([
+                'lang' => app()->getLocale() == 'ar' ? 'en' : 'ar',
+            ]);
+        } else {
+            app()->getLocale() == 'en' ? session(['lang' => 'ar']) : session(['lang' => 'en']);
+        }
     }
 }
 

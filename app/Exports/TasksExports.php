@@ -5,6 +5,8 @@ namespace App\Exports;
 use App\Models\Task;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+
 
 class TasksExports implements FromCollection, WithHeadings
 {
@@ -16,15 +18,18 @@ class TasksExports implements FromCollection, WithHeadings
 
     use Exportable;
 
-    protected $status, $from, $to;
+    protected $status, $from, $to, $payment_status, $activation_from, $activation_to;
 
-    public function __construct($status, $from, $to)
+    public function __construct($status, $payment_status, $from, $to, $activation_from, $activation_to)
     {
         $this->status    = $status;
+        $this->payment_status    = $payment_status;
         $this->from     = $from;
         $this->to     = $to;
+        $this->activation_from = $activation_from;
+        $this->activation_to = $activation_to;
     }
-    }
+
 
     public function headings(): array
     {
@@ -46,15 +51,13 @@ class TasksExports implements FromCollection, WithHeadings
             'connectors',
             'face_split',
             'comment',
-
+            'status',
+            'activation_date',
+            'payment_status',
         ];
     }
-    // public function collection()
-    // {
-    //     return collect(Product::getProducts($this->status, $this->category_id));
-    // }
     public function collection()
     {
-        return Task::all();
+        return collect(Task::getTasks($this->status, $this->payment_status, $this->from, $this->to, $this->activation_from, $this->activation_to));
     }
 }

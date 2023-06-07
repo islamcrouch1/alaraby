@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\dashboard;
 
+use App\Exports\TasksExports;
 use App\Http\Controllers\Controller;
 use App\Imports\TasksImport;
 use App\Models\Central;
@@ -13,6 +14,8 @@ use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class TasksController extends Controller
 {
@@ -42,10 +45,18 @@ class TasksController extends Controller
             $request->merge(['activation_to' => Carbon::now()->toDateString()]);
         }
 
-        // dd(request()->payment_status);
+        // dd(request()->from, request()->to);
 
         $tasks = task::whereDate('task_date', '>=', request()->from)
             ->whereDate('task_date', '<=', request()->to)
+            ->where(function ($q) {
+                $q->whereDate('activation_date', '>=', request()->activation_from)
+                    ->orWhereNull('activation_date');
+            })
+            ->where(function ($q) {
+                $q->whereDate('activation_date', '<=', request()->activation_to)
+                    ->orWhereNull('activation_date');
+            })
             ->whenSearch(request()->search)
             ->whenStatus(request()->status)
             ->whenPaymentStatus(request()->payment_status)
@@ -180,6 +191,8 @@ class TasksController extends Controller
             $activation_date = null;
         }
 
+
+
         $task->update([
             'client_name' => $request['client_name'],
             'client_phone' => $request['client_phone'],
@@ -192,7 +205,7 @@ class TasksController extends Controller
             'end_date' => $date->toDateTimeString(),
             'status' => $request['status'],
             'activation_date' => $activation_date,
-            'payment_status' => $request['payment_status'],
+            'payment_status' => $request['payment_status'] == null ? 2 : $request['payment_status'],
 
         ]);
 
@@ -262,7 +275,9 @@ class TasksController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new TasksExport, 'tasks.xlsx');
+        $response = Excel::download(new TasksExports($request->status, $request->payment_status, $request->from, $request->to, $request->activation_from, $request->activation_to), 'tasks.xlsx');
+        ob_end_clean();
+        return $response;
     }
 
 
