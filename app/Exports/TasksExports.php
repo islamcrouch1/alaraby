@@ -16,11 +16,14 @@ class TasksExports implements FromCollection, WithHeadings
 
     use Exportable;
 
-    protected $task, $from, $to;
+    protected $status, $from, $to;
 
-    public function __construct($task)
+    public function __construct($status, $from, $to)
     {
-        $this->task    = $task;
+        $this->status    = $status;
+        $this->from     = $from;
+        $this->to     = $to;
+    }
     }
 
     public function headings(): array
