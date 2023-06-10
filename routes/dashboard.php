@@ -1,14 +1,15 @@
 <?php
 
 
-use App\Http\Controllers\dashboard\HomeController;
-use App\Http\Controllers\dashboard\RoleController;
-use App\Http\Controllers\dashboard\UsersController;
-use App\Http\Controllers\dashboard\CentralsController;
+use App\Http\Controllers\Dashboard\HomeController;
+use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\UsersController;
+use App\Http\Controllers\Dashboard\CentralsController;
 use App\Http\Controllers\Dashboard\CommentsController;
 use App\Http\Controllers\Dashboard\CompoundsController;
-use App\Http\Controllers\dashboard\TasksController;
-use App\Http\Controllers\dashboard\TechController;
+use App\Http\Controllers\Dashboard\PhoneVerificationController;
+use App\Http\Controllers\Dashboard\TasksController;
+use App\Http\Controllers\Dashboard\TechController;
 
 
 
@@ -63,4 +64,14 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['role:superadministrator
 
     // bulk  action
     Route::post('/tasks/bulk-action', [TasksController::class, 'bulkAction'])->name('tasks.bulk-action')->middleware('auth', 'checkverified', 'checkstatus');
+});
+
+
+
+Route::group(['middleware' => ['role:superadministrator|administrator|tech']], function () {
+
+    // verification routes
+    Route::get('phone/verify', [PhoneVerificationController::class, 'show'])->name('phoneverification.notice')->middleware('auth', 'checkstatus');
+    Route::post('phone/verify', [PhoneVerificationController::class, 'verify'])->name('phoneverification.verify')->middleware('auth', 'checkstatus');
+    Route::get('/resend-code', [PhoneVerificationController::class, 'resend'])->name('resend-code')->middleware('auth', 'checkstatus');
 });

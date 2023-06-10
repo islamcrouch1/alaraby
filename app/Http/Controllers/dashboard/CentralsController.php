@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\central;
+use App\Models\Central;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +25,7 @@ class centralsController extends Controller
     public function index()
     {
 
-        $centrals = central::whenSearch(request()->search)
+        $centrals = Central::whenSearch(request()->search)
             ->latest()
             ->paginate(100);
 
@@ -57,7 +57,7 @@ class centralsController extends Controller
         ]);
 
 
-        $central = central::create([
+        $central = Central::create([
             'name_ar' => $request['name_ar'],
             'name_en' => $request['name_en'],
 
@@ -86,7 +86,7 @@ class centralsController extends Controller
      */
     public function edit($central)
     {
-        $central = central::findOrFail($central);
+        $central = Central::findOrFail($central);
         return view('dashboard.centrals.edit ')->with('central', $central);
     }
 
@@ -97,7 +97,7 @@ class centralsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, central $central)
+    public function update(Request $request, Central $central)
     {
         $request->validate([
             'name_ar' => "required|string|max:255|unique:centrals,name_ar," . $central->id,
@@ -125,7 +125,7 @@ class centralsController extends Controller
      */
     public function destroy($central)
     {
-        $central = central::withTrashed()->where('id', $central)->first();
+        $central = Central::withTrashed()->where('id', $central)->first();
         if ($central->trashed() && auth()->user()->hasPermission('centrals-delete')) {
             $central->forceDelete();
             alertSuccess('central deleted successfully', 'تم حذف السنترال بنجاح');
@@ -151,7 +151,7 @@ class centralsController extends Controller
 
     public function restore($central, Request $request)
     {
-        $central = central::withTrashed()->where('id', $central)->first()->restore();
+        $central = Central::withTrashed()->where('id', $central)->first()->restore();
         alertSuccess('central restored successfully', 'تم استعادة السنترال بنجاح');
         return redirect()->route('centrals.index', ['parent_id' => $request->parent_id]);
     }

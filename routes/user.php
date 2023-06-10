@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\dashboard\HomeController;
+use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Dashboard\TechController;
 use Illuminate\Support\Facades\Route;
 
