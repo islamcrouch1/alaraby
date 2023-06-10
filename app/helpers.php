@@ -54,7 +54,11 @@ if (!function_exists('alertError')) {
 if (!function_exists('checkUserForTrash')) {
     function checkUserForTrash($user)
     {
-        return true;
+        if ($user->tasks()->withTrashed()->count() > '0') {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 
