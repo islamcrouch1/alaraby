@@ -429,6 +429,21 @@
                                     </select>
                                 </div>
 
+                                <div class="mb-3">
+                                <label class="form-label" for="central">{{ __('select central') }}</label>
+
+                                <select class="form-select @error('central') is-invalid @enderror" name="central">
+                                    @foreach ($centrals as $central)
+                                        <option value="{{ $central->id }}">
+                                            {{ app()->getLocale() == 'ar' ? $central->name_ar : $central->name_en }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('central')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
 
                             </div>
 
