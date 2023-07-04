@@ -47,7 +47,7 @@ class TasksImport implements
             'compound' => "required|string",
             'central' => "required|string",
             'tech_name' => "required|string",
-            'task_date' => "required|numeric_or_string",
+            // 'task_date' => "required|numeric_or_string",
 
 
             'type' => "nullable|string",
@@ -82,7 +82,7 @@ class TasksImport implements
                 'compound' => "required|string",
                 'central' => "required|string",
                 'tech_name' => "required|string",
-                'task_date' => "required|numeric_or_string",
+                // 'task_date' => "required|numeric_or_string",
 
 
                 'type' => "nullable|numeric_or_string",
@@ -147,11 +147,13 @@ class TasksImport implements
             }
 
 
-            $task_date = Carbon::parse($row['task_date']);
+
+
+            $task_date = Carbon::now();
             $task_date = $task_date->toDateTimeString();
 
 
-            $end_date = Carbon::parse($row['task_date']);
+            $end_date = Carbon::now();
             $end_date = $end_date->addDay();
             $end_date = $end_date->toDateTimeString();
 

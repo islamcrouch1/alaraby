@@ -138,9 +138,9 @@
                                         {{ getActiveTasksCount() }}
                                     </span>
 
-                                    <span class="badge badge-soft-info m-1">
+                                    {{-- <span class="badge badge-soft-info m-1">
                                         {{ getUpdatedTasksCount() }}
-                                    </span>
+                                    </span> --}}
                                 </div>
                             </a>
                         @endif

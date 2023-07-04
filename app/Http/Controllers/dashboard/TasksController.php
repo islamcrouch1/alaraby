@@ -59,11 +59,18 @@ class TasksController extends Controller
             })
             ->whenSearch(request()->search)
             ->whenStatus(request()->status)
+            ->whenCentral(request()->central_id)
+            ->whenComment(request()->comment_id)
+            ->whenCompound(request()->compound_id)
             ->whenPaymentStatus(request()->payment_status)
             ->latest()
-            ->paginate(100);
+            ->paginate(200);
 
-        return view('dashboard.tasks.index')->with('tasks', $tasks);
+        $centrals = Central::all();
+        $commmnets = Comment::all();
+        $compounds = Compound::all();
+
+        return view('dashboard.tasks.index', compact('centrals', 'tasks', 'commmnets', 'compounds'));
     }
 
     /**
@@ -238,13 +245,50 @@ class TasksController extends Controller
         }
     }
 
-    public function trashed()
+    public function trashed(Request $request)
     {
+
+
+
+        if (!$request->has('from') || !$request->has('to')) {
+            $request->merge(['from' => Carbon::now()->subDay(30)->toDateString()]);
+            $request->merge(['to' => Carbon::now()->toDateString()]);
+        }
+
+
+        if (!$request->has('activation_from') || !$request->has('activation_to')) {
+            $request->merge(['activation_from' => Carbon::now()->subDay(30)->toDateString()]);
+            $request->merge(['activation_to' => Carbon::now()->toDateString()]);
+        }
+
+
         $tasks = Task::onlyTrashed()
+            ->whereDate('task_date', '>=', request()->from)
+            ->whereDate('task_date', '<=', request()->to)
+            ->where(function ($q) {
+                $q->whereDate('activation_date', '>=', request()->activation_from)
+                    ->orWhereNull('activation_date');
+            })
+            ->where(function ($q) {
+                $q->whereDate('activation_date', '<=', request()->activation_to)
+                    ->orWhereNull('activation_date');
+            })
             ->whenSearch(request()->search)
+            ->whenStatus(request()->status)
+            ->whenCentral(request()->central_id)
+            ->whenComment(request()->comment_id)
+            ->whenCompound(request()->compound_id)
+            ->whenPaymentStatus(request()->payment_status)
             ->latest()
-            ->paginate(100);
-        return view('dashboard.tasks.index', ['tasks' => $tasks]);
+            ->paginate(200);;
+
+
+        $centrals = Central::all();
+        $commmnets = Comment::all();
+        $compounds = Compound::all();
+
+
+        return view('dashboard.tasks.index', compact('centrals', 'tasks', 'commmnets', 'compounds'));
     }
 
     public function restore($task, Request $request)
@@ -284,39 +328,68 @@ class TasksController extends Controller
     public function bulkAction(Request $request)
     {
         $request->validate([
-            'bulk_option' => "required|string|max:255",
+            'bulk_option' => "nullable|string|max:255",
             'items' => "nullable|array",
+            'task_date' => "nullable|string",
         ]);
 
-        foreach ($request->items as $item) {
 
-            $task = Task::findOrFail($item);
-
-            if ($task->cab != null && ($request['bulk_option'] == 'active' || $request['bulk_option'] == 'inactive')) {
-
-                if (isset($request['bulk_option']) &&  $request['bulk_option'] == 'active' && $task->status != 'active') {
-                    $activation_date = Carbon::now()->toDateTimeString();
-                } elseif ($task->status == 'active' && $request['bulk_option'] != 'inactive') {
-                    $activation_date = $task->activation_date;
-                } else {
-                    $activation_date = null;
-                }
-
-
+        if ($request->task_date) {
+            foreach ($request->items as $item) {
+                $task = Task::findOrFail($item);
+                $date = Carbon::parse($request->task_date);
+                $date = $date->addDay();
                 $task->update([
-
-                    'status' => $request['bulk_option'],
-                    'activation_date' => $activation_date,
-                    // 'payment_status' => $request['payment_status'],
-
-                ]);
-            } elseif ($task->cab != null && ($request['bulk_option'] == 'paid' || $request['bulk_option'] == 'unpaid')) {
-                $task->update([
-                    'payment_status' => $request['bulk_option'] == 'paid' ? 1 : 2,
+                    'task_date' => $request['task_date'],
+                    'end_date' => $date->toDateTimeString(),
                 ]);
             }
         }
 
+        if ($request->bulk_option) {
+            if ($request->bulk_option == 'trash' || $request->bulk_option == 'delete') {
+
+                foreach ($request->items as $item) {
+                    $task = Task::withTrashed()->where('id', $item)->first();
+                    if ($task->trashed() && auth()->user()->hasPermission('tasks-delete')) {
+                        $task->forceDelete();
+                    } elseif (!$task->trashed() && auth()->user()->hasPermission('tasks-trash')) {
+                        $task->delete();
+                    } else {
+                        alertError('Sorry, you do not have permission to perform this action, or the task cannot be deleted at the moment', 'نأسف ليس لديك صلاحية للقيام بهذا الإجراء ، أو المهمة لا يمكن حذفه حاليا');
+                    }
+                }
+            } else {
+                foreach ($request->items as $item) {
+
+                    $task = Task::findOrFail($item);
+
+                    if ($task->cab != null && ($request['bulk_option'] == 'active' || $request['bulk_option'] == 'inactive')) {
+
+                        if (isset($request['bulk_option']) &&  $request['bulk_option'] == 'active' && $task->status != 'active') {
+                            $activation_date = Carbon::now()->toDateTimeString();
+                        } elseif ($task->status == 'active' && $request['bulk_option'] != 'inactive') {
+                            $activation_date = $task->activation_date;
+                        } else {
+                            $activation_date = null;
+                        }
+
+
+                        $task->update([
+
+                            'status' => $request['bulk_option'],
+                            'activation_date' => $activation_date,
+                            // 'payment_status' => $request['payment_status'],
+
+                        ]);
+                    } elseif ($task->cab != null && ($request['bulk_option'] == 'paid' || $request['bulk_option'] == 'unpaid')) {
+                        $task->update([
+                            'payment_status' => $request['bulk_option'] == 'paid' ? 1 : 2,
+                        ]);
+                    }
+                }
+            }
+        }
 
         alertSuccess('tasks updated successfully', 'تم التعديل بنجاح');
         return redirect()->route('tasks.index');

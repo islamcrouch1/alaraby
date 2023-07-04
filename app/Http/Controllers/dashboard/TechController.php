@@ -45,18 +45,18 @@ class TechController extends Controller
     {
         $request->validate([
             'comment' => "required|integer",
-            'cab' => "required|string",
-            'box' => "required|string",
-            'db' => "required|string",
-            'cable_type' => "required|string",
-            'cable_length' => "required|string",
-            'connectors' => "required|string",
-            'face_split' => "required|string",
-            'type' => "required|string",
+            'cab' => "nullable|string",
+            'box' => "nullable|string",
+            'db' => "nullable|string",
+            'cable_type' => "nullable|string",
+            'cable_length' => "nullable|string",
+            'connectors' => "nullable|string",
+            'face_split' => "nullable|string",
+            'type' => "nullable|string",
         ]);
 
 
-        if ($files = $request->file('images')) {
+        if ($request->hasFile('images') && $files = $request->file('images')) {
             foreach ($files as $file) {
                 Image::make($file)->save(public_path('storage/images/tasks/' . $file->hashName()), 80);
                 TaskImage::create([

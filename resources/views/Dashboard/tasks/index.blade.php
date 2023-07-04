@@ -44,19 +44,35 @@
                     <div class="col-8 col-sm-auto text-end ps-2">
                         <div class="d-none" id="table-customers-actions">
                             <div class="d-flex">
+
+
+                                <input type="datetime-local" id="task_date" name="task_date" class="form-control"
+                                    value="" required>
+
                                 <select class="form-select form-select-sm" name="bulk_option" form="bulk-edit"
-                                    aria-label="Bulk actions" required>
+                                    aria-label="Bulk actions">
                                     <option value="">{{ __('Bulk actions') }}</option>
                                     <option value="active">{{ __('Active') }}</option>
                                     <option value="inactive">{{ __('not Active') }}</option>
                                     <option value="paid">{{ __(' Paid') }}</option>
                                     <option value="unpaid">{{ __('Non-Paid') }}</option>
+                                    @if ($tasks->count() > 0 && $tasks[0]->trashed())
+                                        <option value="delete">{{ __('delete') }}</option>
+                                    @else
+                                        <option value="trash">{{ __('trash') }}</option>
+                                    @endif
 
 
                                 </select>
+
+
+
+
                                 <button form="bulk-edit" class="btn btn-falcon-default btn-sm ms-2"
                                     type="submit">{{ __('Apply') }}</button>
                             </div>
+
+
                         </div>
                         <div id="table-customers-replace-element">
                             <a href="" data-bs-toggle="modal" data-bs-target="#filter-modal"
@@ -110,6 +126,9 @@
                                         {{ __('Technician Name') }}
                                     </th>
                                     <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
+                                        {{ __('central Name') }}
+                                    </th>
+                                    <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
                                         {{ __('Status') }}
                                     </th>
                                     <th class="sort pe-1 align-middle white-space-nowrap" data-sort="name">
@@ -154,6 +173,7 @@
                                         <td class="joined align-middle py-2">{{ $task->client_phone }} </td>
                                         <td class="joined align-middle py-2">{{ $task->service_number }} </td>
                                         <td class="joined align-middle py-2">{{ $task->user->name }} </td>
+                                        <td class="joined align-middle py-2">{{ getName($task->central) }} </td>
                                         <td class="joined align-middle py-2">
                                             @if ($task->status == 'active')
                                                 <span class="badge badge-soft-success ">{{ __('active') }}</span>
@@ -309,9 +329,11 @@
                                                 <div class="mb-3">
                                                     <div class="col-md-12" id="gallery">
                                                         @foreach ($task->images as $image)
-                                                            <img src="{{ asset('storage/images/tasks/' . $image->image) }}"
-                                                                style="width:100px; border: 1px solid #999"
-                                                                class="img-thumbnail img-prev">
+                                                            <a target="_blank"
+                                                                href="{{ asset('storage/images/tasks/' . $image->image) }}">
+                                                                <img src="{{ asset('storage/images/tasks/' . $image->image) }}"
+                                                                    style="width:100px; border: 1px solid #999"
+                                                                    class="img-thumbnail img-prev"></a>
                                                         @endforeach
                                                     </div>
                                                 </div>
@@ -429,20 +451,49 @@
                                     </select>
                                 </div>
 
-                                <div class="mb-3">
-                                <label class="form-label" for="central">{{ __('select central') }}</label>
 
-                                <select class="form-select @error('central') is-invalid @enderror" name="central">
-                                    @foreach ($centrals as $central)
-                                        <option value="{{ $central->id }}">
-                                            {{ app()->getLocale() == 'ar' ? $central->name_ar : $central->name_en }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('central')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+                                <div class="col-md-3 mb-3">
+                                    <select class="form-select" name="central_id">
+                                        <option value="">{{ __('select central') }}</option>
+
+                                        @foreach ($centrals as $central)
+                                            <option value="{{ $central->id }}"
+                                                {{ request()->central_id == $central->id ? 'selected' : '' }}>
+                                                {{ app()->getLocale() == 'ar' ? $central->name_ar : $central->name_en }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-3 mb-3">
+                                    <select class="form-select" name="comment_id">
+                                        <option value="">{{ __('select comment') }}</option>
+
+                                        @foreach ($commmnets as $comment)
+                                            <option value="{{ $comment->id }}"
+                                                {{ request()->comment_id == $comment->id ? 'selected' : '' }}>
+                                                {{ app()->getLocale() == 'ar' ? $comment->name_ar : $comment->name_en }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-3 mb-3">
+                                    <select class="form-select" name="compound_id">
+                                        <option value="">{{ __('select compound') }}</option>
+
+                                        @foreach ($compounds as $compound)
+                                            <option value="{{ $compound->id }}"
+                                                {{ request()->compound_id == $compound->id ? 'selected' : '' }}>
+                                                {{ app()->getLocale() == 'ar' ? $compound->name_ar : $compound->name_en }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
 
 
                             </div>

@@ -24,7 +24,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="type">{{ __('task type') }}</label>
 
-                                <select class="form-select @error('type') is-invalid @enderror" name="type" required>
+                                <select class="form-select @error('type') is-invalid @enderror" name="type">
                                     <option value="">
                                         {{ __('select task type') }}
                                     </option>
@@ -44,7 +44,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="db">{{ __(' db') }}</label>
                                 <input name="db" class="form-control @error('db') is-invalid @enderror"
-                                    value="{{ $task->db }}" type="text" id="db" required />
+                                    value="{{ $task->db }}" type="text" id="db" />
                                 @error('db')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -54,7 +54,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="box">{{ __('box') }}</label>
                                 <input name="box" class="form-control @error('box') is-invalid @enderror"
-                                    value="{{ $task->box }}" type="text" autocomplete="on" id="box" required />
+                                    value="{{ $task->box }}" type="text" autocomplete="on" id="box" />
                                 @error('box')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -63,7 +63,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="cab">{{ __('cab no') }}</label>
                                 <input name="cab" class="form-control @error('cab') is-invalid @enderror"
-                                    value="{{ $task->cab }}" type="text" autocomplete="on" id="cab" required />
+                                    value="{{ $task->cab }}" type="text" autocomplete="on" id="cab" />
                                 @error('cab')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -71,8 +71,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label" for="cable_type">{{ __('cable type') }}</label>
-                                <select class="form-select @error('cable_type') is-invalid @enderror" name="cable_type"
-                                    required>
+                                <select class="form-select @error('cable_type') is-invalid @enderror" name="cable_type">
                                     <option value="">
                                         {{ __('select task cable type') }}
                                     </option>
@@ -91,8 +90,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="cable_length">{{ __('cable length') }}</label>
                                 <input name="cable_length" class="form-control @error('cable_length') is-invalid @enderror"
-                                    value="{{ $task->cable_length }}" type="text" autocomplete="on" id="cable_length"
-                                    autofocus required />
+                                    value="{{ $task->cable_length }}" type="text" autocomplete="on" id="cable_length" />
                                 @error('cable_length')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -100,8 +98,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label" for="connector">{{ __('connectors') }}</label>
-                                <select class="form-select @error('connectors') is-invalid @enderror" name="connectors"
-                                    required>
+                                <select class="form-select @error('connectors') is-invalid @enderror" name="connectors">
                                     <option value="">
                                         {{ __('select connectors quantity') }}
                                     </option>
@@ -123,8 +120,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="face_split">{{ __('face split') }}</label>
                                 <input name="face_split" class="form-control @error('face_split') is-invalid @enderror"
-                                    value="{{ $task->face_split }}" type="text" autocomplete="on" id="face_split"
-                                    required />
+                                    value="{{ $task->face_split }}" type="text" autocomplete="on" id="face_split" />
                                 @error('face_split')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -133,7 +129,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="comment">{{ __('select comment') }}</label>
 
-                                <select class="form-select @error('comment') is-invalid @enderror" name="comment">
+                                <select class="form-select @error('comment') is-invalid @enderror" name="comment" required>
                                     <option value="">
                                         {{ __('select comment') }}
                                     </option>
@@ -152,7 +148,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="images">{{ __('images') }}</label>
                                 <input name="images[]" class="imgs form-control @error('images') is-invalid @enderror"
-                                    type="file" id="images" accept="image/*" required multiple />
+                                    type="file" id="images" accept="image/*" multiple />
                                 @error('images')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror

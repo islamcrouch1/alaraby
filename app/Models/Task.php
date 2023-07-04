@@ -56,6 +56,31 @@ class Task extends Model
         });
     }
 
+
+
+    public function scopeWhenCentral($query, $central_id)
+    {
+        return $query->when($central_id, function ($q) use ($central_id) {
+            return $q->where('central_id', 'like', "$central_id");
+        });
+    }
+
+    public function scopeWhenCompound($query, $compound_id)
+    {
+        return $query->when($compound_id, function ($q) use ($compound_id) {
+            return $q->where('compound_id', 'like', "$compound_id");
+        });
+    }
+
+
+    public function scopeWhenComment($query, $comment_id)
+    {
+        return $query->when($comment_id, function ($q) use ($comment_id) {
+            return $q->where('comment_id', 'like', "$comment_id");
+        });
+    }
+
+
     public function scopeWhenPaymentStatus($query, $payment_status)
     {
         return $query->when($payment_status, function ($q) use ($payment_status) {
