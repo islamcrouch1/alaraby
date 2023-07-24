@@ -130,7 +130,7 @@ class TasksController extends Controller
 
         ]);
 
-        alertSuccess('task created successfully', 'تم إضافة المهمة بنجاح');
+        alertSuccess('task created successfully', 'تم إفة المهمة بنجاح');
         return redirect()->route('tasks.index');
     }
 
@@ -218,7 +218,7 @@ class TasksController extends Controller
 
 
 
-        alertSuccess('task updated successfully', 'تم تعديل المهمة بنجاح');
+        alertSuccess('task updated successfully', 'م تعديل المهمة بنجاح');
         return redirect()->route('tasks.index');
     }
 
@@ -233,14 +233,14 @@ class TasksController extends Controller
         $task = Task::withTrashed()->where('id', $task)->first();
         if ($task->trashed() && auth()->user()->hasPermission('tasks-delete')) {
             $task->forceDelete();
-            alertSuccess('task deleted successfully', 'تم حذف المهمة بنجاح');
+            alertSuccess('task deleted successfully', 'تم حذف المهمة بجح');
             return redirect()->route('tasks.trashed');
         } elseif (!$task->trashed() && auth()->user()->hasPermission('tasks-trash')) {
             $task->delete();
-            alertSuccess('task trashed successfully', 'تم حذف المهمة مؤقتا');
+            alertSuccess('task trashed successfully', 'تم حذف الممة مؤقتا');
             return redirect()->route('tasks.index');
         } else {
-            alertError('Sorry, you do not have permission to perform this action, or the task cannot be deleted at the moment', 'نأسف ليس لديك صلاحية للقيام بهذا الإجراء ، أو المهمة لا يمكن حذفه حاليا');
+            alertError('Sorry, you do not have permission to perform this action, or the task cannot be deleted at the moment', 'نأف ليس لديك صلاحية للقام بهذا الإجاء ، و المهمة لا يمكن ذفه حاليا');
             return redirect()->back();
         }
     }
@@ -294,7 +294,7 @@ class TasksController extends Controller
     public function restore($task, Request $request)
     {
         $task = task::withTrashed()->where('id', $task)->first()->restore();
-        alertSuccess('task restored successfully', 'تم استعادة المهمة بنجاح');
+        alertSuccess('task restored successfully', 'تم استعادة المهة بنجاح');
         return redirect()->route('tasks.index', ['parent_id' => $request->parent_id]);
     }
 
@@ -310,7 +310,7 @@ class TasksController extends Controller
         }
 
         if (!session('error')) {
-            alertSuccess('The file has been uploaded successfully.', 'تم رفع الملف بنجاح.');
+            alertSuccess('The file has been uploaded successfully.', 'تم رفع الملف بنجح.');
             return redirect()->back();
         } else {
             return redirect()->back();
@@ -332,9 +332,12 @@ class TasksController extends Controller
             'items' => "nullable|array",
             'task_date' => "nullable|string",
         ]);
+      
+      
 
 
-        if ($request->task_date) {
+
+        if ($request->task_date && ($request->bulk_option != 'trash' || $request->bulk_option != 'delete')) {
             foreach ($request->items as $item) {
                 $task = Task::findOrFail($item);
                 $date = Carbon::parse($request->task_date);
@@ -347,6 +350,9 @@ class TasksController extends Controller
         }
 
         if ($request->bulk_option) {
+          
+          
+      
             if ($request->bulk_option == 'trash' || $request->bulk_option == 'delete') {
 
                 foreach ($request->items as $item) {
@@ -356,7 +362,7 @@ class TasksController extends Controller
                     } elseif (!$task->trashed() && auth()->user()->hasPermission('tasks-trash')) {
                         $task->delete();
                     } else {
-                        alertError('Sorry, you do not have permission to perform this action, or the task cannot be deleted at the moment', 'نأسف ليس لديك صلاحية للقيام بهذا الإجراء ، أو المهمة لا يمكن حذفه حاليا');
+                        alertError('Sorry, you do not have permission to perform this action, or the task cannot be deleted at the moment', 'نأسف لس لديك صلاحية للقيام بهذا الجراء  أو المهمة ل يمك حذفه حاليا');
                     }
                 }
             } else {

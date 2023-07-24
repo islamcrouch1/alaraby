@@ -110,7 +110,7 @@ class TasksImport implements
             if (isset($user->id)) {
                 $user_id = $user->id;
             } else {
-                alertError('technician not exist', 'الفني غير موجود على النظام');
+                alertError('technician not exist' . ' - ' . $tech_name, 'الفني غير موجود على النظام' . ' - ' . $tech_name);
                 return redirect()->back();
             }
 
