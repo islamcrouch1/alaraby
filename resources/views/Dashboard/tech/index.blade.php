@@ -98,79 +98,6 @@
                         </tbody>
 
                     </table>
-
-                    @foreach ($tasks as $task)
-                        <div class="modal fade" id="show-task-{{ $task->id }}" tabindex="-1" role="dialog"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
-                                <div class="modal-content position-relative">
-                                    <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
-                                        <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
-                                            data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body p-0">
-                                        <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
-                                            <h4 class="mb-1" id="modalExampleDemoLabel">
-                                                {{ __('task service number') . ': ' . $task->service_number }}
-                                            </h4>
-                                        </div>
-                                        <div class="p-4 pb-0">
-
-                                            <div class="table-responsive scrollbar">
-                                                <table class="table table-bordered overflow-hidden">
-                                                    <colgroup>
-                                                        <col class="bg-soft-primary" />
-                                                        <col />
-                                                    </colgroup>
-
-                                                    <tbody>
-
-                                                        <tr class="btn-reveal-trigger">
-                                                            <td>{{ __('client name') }}</td>
-                                                            <td> {{ $task->client_name }}</td>
-                                                        </tr>
-
-                                                        <tr class="btn-reveal-trigger">
-                                                            <td>{{ __('client phone') }}</td>
-                                                            <td>{{ $task->client_phone }}</td>
-                                                        </tr>
-
-                                                        <tr class="btn-reveal-trigger">
-                                                            <td>{{ __('service number') }}</td>
-                                                            <td>{{ $task->service_number }}</td>
-                                                        </tr>
-
-                                                        <tr class="btn-reveal-trigger">
-                                                            <td>{{ __('address') }}</td>
-                                                            <td>{{ $task->address }}</td>
-                                                        </tr>
-
-                                                        <tr class="btn-reveal-trigger">
-                                                            <td>{{ __('central name') }}</td>
-                                                            <td>{{ getName($task->central) }}</td>
-                                                        </tr>
-
-                                                        <tr class="btn-reveal-trigger">
-                                                            <td>{{ __('compound') }}</td>
-                                                            <td>{{ getName($task->compound) }}</td>
-                                                        </tr>
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-secondary" type="button"
-                                            data-bs-dismiss="modal">{{ __('Close') }}</button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
                 @else
                     <h3 class="p-4">{{ __('No tasksTo Show') }}</h3>
                 @endif
@@ -184,3 +111,77 @@
 
     </div>
 @endsection
+
+
+
+@foreach ($tasks as $task)
+    <div class="modal fade" id="show-task-{{ $task->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px;">
+            <div class="modal-content position-relative">
+                <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                    <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                        <h4 class="mb-1" id="modalExampleDemoLabel">
+                            {{ __('task service number') . ': ' . $task->service_number }}
+                        </h4>
+                    </div>
+                    <div class="p-4 pb-0">
+
+                        <div class="table-responsive scrollbar">
+                            <table class="table table-bordered overflow-hidden">
+                                <colgroup>
+                                    <col class="bg-soft-primary" />
+                                    <col />
+                                </colgroup>
+
+                                <tbody>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('client name') }}</td>
+                                        <td> {{ $task->client_name }}</td>
+                                    </tr>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('client phone') }}</td>
+                                        <td>{{ $task->client_phone }}</td>
+                                    </tr>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('service number') }}</td>
+                                        <td>{{ $task->service_number }}</td>
+                                    </tr>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('address') }}</td>
+                                        <td>{{ $task->address }}</td>
+                                    </tr>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('central name') }}</td>
+                                        <td>{{ getName($task->central) }}</td>
+                                    </tr>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('compound') }}</td>
+                                        <td>{{ getName($task->compound) }}</td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button"
+                        data-bs-dismiss="modal">{{ __('Close') }}</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach

@@ -25,6 +25,8 @@ class centralsController extends Controller
     public function index()
     {
 
+
+
         $centrals = Central::whenSearch(request()->search)
             ->latest()
             ->paginate(100);
@@ -51,6 +53,11 @@ class centralsController extends Controller
     public function store(Request $request)
     {
 
+
+
+
+
+
         $request->validate([
             'name_ar' => "required|string|max:255|unique:centrals",
             'name_en' => "required|string|max:255|unique:centrals",
@@ -66,6 +73,9 @@ class centralsController extends Controller
         alertSuccess('central created successfully', 'تم إضافة السنترال بنجاح');
         return redirect()->route('centrals.index');
     }
+
+
+
 
     /**
      * Display the specified resource.

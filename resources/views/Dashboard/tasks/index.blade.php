@@ -47,7 +47,7 @@
 
 
                                 <input type="datetime-local" id="task_date" name="task_date" class="form-control"
-                                    value="" required>
+                                    value="">
 
                                 <select class="form-select form-select-sm" name="bulk_option" form="bulk-edit"
                                     aria-label="Bulk actions">
@@ -251,104 +251,6 @@
                             </tbody>
 
                         </table>
-
-                        @foreach ($tasks as $task)
-                            <div class="modal fade" id="show-task-{{ $task->id }}" tabindex="-1" role="dialog"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
-                                    <div class="modal-content position-relative">
-                                        <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
-                                            <button
-                                                class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
-                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body p-0">
-                                            <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
-                                                <h4 class="mb-1" id="modalExampleDemoLabel">
-                                                    {{ __('task service number') . ': ' . $task->service_number }}
-                                                </h4>
-                                            </div>
-                                            <div class="p-4 pb-0">
-
-                                                <div class="table-responsive scrollbar">
-                                                    <table class="table table-bordered overflow-hidden">
-                                                        <colgroup>
-                                                            <col class="bg-soft-primary" />
-                                                            <col />
-                                                        </colgroup>
-
-                                                        <tbody>
-
-                                                            <tr class="btn-reveal-trigger">
-                                                                <td>{{ __('db') }}</td>
-                                                                <td> {{ $task->db }}</td>
-                                                            </tr>
-
-                                                            <tr class="btn-reveal-trigger">
-                                                                <td>{{ __('box') }}</td>
-                                                                <td>{{ $task->box }}</td>
-                                                            </tr>
-
-                                                            <tr class="btn-reveal-trigger">
-                                                                <td>{{ __('cab number') }}</td>
-                                                                <td>{{ $task->cab }}</td>
-                                                            </tr>
-
-                                                            <tr class="btn-reveal-trigger">
-                                                                <td>{{ __('cable type') }}</td>
-                                                                <td>{{ $task->cable_type }}</td>
-                                                            </tr>
-
-                                                            <tr class="btn-reveal-trigger">
-                                                                <td>{{ __('connectors') }}</td>
-                                                                <td>{{ $task->connectors }}</td>
-                                                            </tr>
-
-                                                            <tr class="btn-reveal-trigger">
-                                                                <td>{{ __('face split') }}</td>
-                                                                <td>{{ $task->face_split }}</td>
-                                                            </tr>
-
-                                                            <tr class="btn-reveal-trigger">
-                                                                <td>{{ __('cable length') }}</td>
-                                                                <td>{{ $task->cable_length }}</td>
-                                                            </tr>
-
-
-
-                                                            <tr class="btn-reveal-trigger">
-                                                                <td>{{ __('comment') }}</td>
-                                                                <td>{{ getName($task->comment) }}</td>
-                                                            </tr>
-
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <div class="col-md-12" id="gallery">
-                                                        @foreach ($task->images as $image)
-                                                            <a target="_blank"
-                                                                href="{{ asset('storage/images/tasks/' . $image->image) }}">
-                                                                <img src="{{ asset('storage/images/tasks/' . $image->image) }}"
-                                                                    style="width:100px; border: 1px solid #999"
-                                                                    class="img-thumbnail img-prev"></a>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button class="btn btn-secondary" type="button"
-                                                data-bs-dismiss="modal">{{ __('Close') }}</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
                     @else
                         <h3 class="p-4">{{ __('No tasksTo Show') }}</h3>
                     @endif
@@ -364,152 +266,250 @@
     </div>
 
 
-    <!-- start filter modal -->
-    <div class="modal fade" id="filter-modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 60%">
+
+@endsection
+
+
+<!-- start filter modal -->
+<div class="modal fade" id="filter-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 60%">
+        <div class="modal-content position-relative">
+            <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="">
+                <div class="modal-body p-0">
+                    <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                        <h4 class="mb-1" id="modalExampleDemoLabel">
+                            {{ __('search filters') }}</h4>
+                    </div>
+                    <div class="p-4 pb-0">
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <input class="form-control search-input fuzzy-search" type="search"
+                                    value="{{ request()->search }}" name="search" autofocus
+                                    placeholder="{{ __('Search...') }}" />
+                            </div>
+
+
+                            <div class="col-md-12 mb-1">
+                                <label for="">{{ __('task date') }}</label>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="input-group"><span class="input-group-text"
+                                        id="from">{{ __('From') }}</span>
+                                    <input type="date" id="from" name="from" class="form-control"
+                                        value="{{ request()->from }}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="input-group"><span class="input-group-text"
+                                        id="to">{{ __('To') }}</span>
+                                    <input type="date" id="to" name="to" class="form-control"
+                                        value="{{ request()->to }}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-1">
+                                <label for="">{{ __('activation date') }}</label>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="input-group"><span class="input-group-text"
+                                        id="from">{{ __('From') }}</span>
+                                    <input type="date" id="from" name="activation_from" class="form-control"
+                                        value="{{ request()->activation_from }}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="input-group"><span class="input-group-text"
+                                        id="to">{{ __('To') }}</span>
+                                    <input type="date" id="to" name="activation_to" class="form-control"
+                                        value="{{ request()->activation_to }}">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3 mb-3">
+                                <select name="status" class="form-select">
+                                    <option value="">{{ __('All Status') }}</option>
+                                    <option value="active" {{ request()->status == 'active' ? 'selected' : '' }}>
+                                        {{ __('active') }}</option>
+                                    <option value="inactive" {{ request()->status == 'inactive' ? 'selected' : '' }}>
+                                        {{ __('inactive') }}</option>
+
+                                </select>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <select name="payment_status" class="form-select">
+                                    <option value="">{{ __('payment status') }}</option>
+                                    <option value="1" {{ request()->payment_status == '1' ? 'selected' : '' }}>
+                                        {{ __('paid') }}</option>
+                                    <option value="2" {{ request()->payment_status == '2' ? 'selected' : '' }}>
+                                        {{ __('unpaid') }}</option>
+
+                                </select>
+                            </div>
+
+
+                            <div class="col-md-3 mb-3">
+                                <select class="form-select" name="central_id">
+                                    <option value="">{{ __('select central') }}</option>
+
+                                    @foreach ($centrals as $central)
+                                        <option value="{{ $central->id }}"
+                                            {{ request()->central_id == $central->id ? 'selected' : '' }}>
+                                            {{ app()->getLocale() == 'ar' ? $central->name_ar : $central->name_en }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            <div class="col-md-3 mb-3">
+                                <select class="form-select" name="comment_id">
+                                    <option value="">{{ __('select comment') }}</option>
+
+                                    @foreach ($commmnets as $comment)
+                                        <option value="{{ $comment->id }}"
+                                            {{ request()->comment_id == $comment->id ? 'selected' : '' }}>
+                                            {{ app()->getLocale() == 'ar' ? $comment->name_ar : $comment->name_en }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            <div class="col-md-3 mb-3">
+                                <select class="form-select" name="compound_id">
+                                    <option value="">{{ __('select compound') }}</option>
+
+                                    @foreach ($compounds as $compound)
+                                        <option value="{{ $compound->id }}"
+                                            {{ request()->compound_id == $compound->id ? 'selected' : '' }}>
+                                            {{ app()->getLocale() == 'ar' ? $compound->name_ar : $compound->name_en }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button"
+                        data-bs-dismiss="modal">{{ __('Close') }}</button>
+                    <button class="btn btn-primary" type="submit">{{ __('Apply') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end filter modal -->
+
+
+@foreach ($tasks as $task)
+    <div class="modal fade" id="show-task-{{ $task->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
             <div class="modal-content position-relative">
                 <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
                     <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="">
-                    <div class="modal-body p-0">
-                        <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
-                            <h4 class="mb-1" id="modalExampleDemoLabel">
-                                {{ __('search filters') }}</h4>
+                <div class="modal-body p-0">
+                    <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                        <h4 class="mb-1" id="modalExampleDemoLabel">
+                            {{ __('task service number') . ': ' . $task->service_number }}
+                        </h4>
+                    </div>
+                    <div class="p-4 pb-0">
+
+                        <div class="table-responsive scrollbar">
+                            <table class="table table-bordered overflow-hidden">
+                                <colgroup>
+                                    <col class="bg-soft-primary" />
+                                    <col />
+                                </colgroup>
+
+                                <tbody>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('db') }}</td>
+                                        <td> {{ $task->db }}</td>
+                                    </tr>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('box') }}</td>
+                                        <td>{{ $task->box }}</td>
+                                    </tr>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('cab number') }}</td>
+                                        <td>{{ $task->cab }}</td>
+                                    </tr>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('cable type') }}</td>
+                                        <td>{{ $task->cable_type }}</td>
+                                    </tr>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('connectors') }}</td>
+                                        <td>{{ $task->connectors }}</td>
+                                    </tr>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('face split') }}</td>
+                                        <td>{{ $task->face_split }}</td>
+                                    </tr>
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('cable length') }}</td>
+                                        <td>{{ $task->cable_length }}</td>
+                                    </tr>
+
+
+
+                                    <tr class="btn-reveal-trigger">
+                                        <td>{{ __('comment') }}</td>
+                                        <td>{{ getName($task->comment) }}</td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="p-4 pb-0">
 
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <input class="form-control search-input fuzzy-search" type="search"
-                                        value="{{ request()->search }}" name="search" autofocus
-                                        placeholder="{{ __('Search...') }}" />
-                                </div>
-
-
-                                <div class="col-md-12 mb-1">
-                                    <label for="">{{ __('task date') }}</label>
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <div class="input-group"><span class="input-group-text"
-                                            id="from">{{ __('From') }}</span>
-                                        <input type="date" id="from" name="from" class="form-control"
-                                            value="{{ request()->from }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <div class="input-group"><span class="input-group-text"
-                                            id="to">{{ __('To') }}</span>
-                                        <input type="date" id="to" name="to" class="form-control"
-                                            value="{{ request()->to }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 mb-1">
-                                    <label for="">{{ __('activation date') }}</label>
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <div class="input-group"><span class="input-group-text"
-                                            id="from">{{ __('From') }}</span>
-                                        <input type="date" id="from" name="activation_from" class="form-control"
-                                            value="{{ request()->activation_from }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <div class="input-group"><span class="input-group-text"
-                                            id="to">{{ __('To') }}</span>
-                                        <input type="date" id="to" name="activation_to" class="form-control"
-                                            value="{{ request()->activation_to }}">
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-3 mb-3">
-                                    <select name="status" class="form-select">
-                                        <option value="">{{ __('All Status') }}</option>
-                                        <option value="active" {{ request()->status == 'active' ? 'selected' : '' }}>
-                                            {{ __('active') }}</option>
-                                        <option value="inactive" {{ request()->status == 'inactive' ? 'selected' : '' }}>
-                                            {{ __('inactive') }}</option>
-
-                                    </select>
-                                </div>
-
-                                <div class="col-md-3 mb-3">
-                                    <select name="payment_status" class="form-select">
-                                        <option value="">{{ __('payment status') }}</option>
-                                        <option value="1" {{ request()->payment_status == '1' ? 'selected' : '' }}>
-                                            {{ __('paid') }}</option>
-                                        <option value="2" {{ request()->payment_status == '2' ? 'selected' : '' }}>
-                                            {{ __('unpaid') }}</option>
-
-                                    </select>
-                                </div>
-
-
-                                <div class="col-md-3 mb-3">
-                                    <select class="form-select" name="central_id">
-                                        <option value="">{{ __('select central') }}</option>
-
-                                        @foreach ($centrals as $central)
-                                            <option value="{{ $central->id }}"
-                                                {{ request()->central_id == $central->id ? 'selected' : '' }}>
-                                                {{ app()->getLocale() == 'ar' ? $central->name_ar : $central->name_en }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-
-                                <div class="col-md-3 mb-3">
-                                    <select class="form-select" name="comment_id">
-                                        <option value="">{{ __('select comment') }}</option>
-
-                                        @foreach ($commmnets as $comment)
-                                            <option value="{{ $comment->id }}"
-                                                {{ request()->comment_id == $comment->id ? 'selected' : '' }}>
-                                                {{ app()->getLocale() == 'ar' ? $comment->name_ar : $comment->name_en }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-
-                                <div class="col-md-3 mb-3">
-                                    <select class="form-select" name="compound_id">
-                                        <option value="">{{ __('select compound') }}</option>
-
-                                        @foreach ($compounds as $compound)
-                                            <option value="{{ $compound->id }}"
-                                                {{ request()->compound_id == $compound->id ? 'selected' : '' }}>
-                                                {{ app()->getLocale() == 'ar' ? $compound->name_ar : $compound->name_en }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-
-
-
+                        <div class="mb-3">
+                            <div class="col-md-12" id="gallery">
+                                @foreach ($task->images as $image)
+                                    <a target="_blank" href="{{ asset('storage/images/tasks/' . $image->image) }}">
+                                        <img src="{{ asset('storage/images/tasks/' . $image->image) }}"
+                                            style="width:100px; border: 1px solid #999"
+                                            class="img-thumbnail img-prev"></a>
+                                @endforeach
                             </div>
-
                         </div>
 
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button"
-                            data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button class="btn btn-primary" type="submit">{{ __('Apply') }}</button>
-                    </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button"
+                        data-bs-dismiss="modal">{{ __('Close') }}</button>
+
+                </div>
             </div>
         </div>
     </div>
-    <!-- end filter modal -->
-
-@endsection
+@endforeach

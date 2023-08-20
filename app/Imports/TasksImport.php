@@ -97,8 +97,11 @@ class TasksImport implements
 
 
             ])->validate();
+        }
 
 
+
+        foreach ($rows as $row) {
 
 
             $tech_name = $row['tech_name'];
@@ -113,6 +116,12 @@ class TasksImport implements
                 alertError('technician not exist' . ' - ' . $tech_name, 'الفني غير موجود على النظام' . ' - ' . $tech_name);
                 return redirect()->back();
             }
+        }
+
+
+        foreach ($rows as $row) {
+
+
 
             $compound = Compound::where('name_ar', $row['compound'])->orWhere('name_en', $row['compound'])->first();
             if (!isset($compound->id)) {
