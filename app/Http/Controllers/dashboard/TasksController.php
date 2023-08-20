@@ -210,7 +210,7 @@ class TasksController extends Controller
             'central_id' => $request['central'],
             'task_date' => $request['task_date'],
             'end_date' => $date->toDateTimeString(),
-            'status' => $request['status'],
+            'status' => $request['status'] ? $request['status'] : $task->status,
             'activation_date' => $activation_date,
             'payment_status' => $request['payment_status'] == null ? 2 : $request['payment_status'],
 
@@ -332,8 +332,8 @@ class TasksController extends Controller
             'items' => "nullable|array",
             'task_date' => "nullable|string",
         ]);
-      
-      
+
+
 
 
 
@@ -350,9 +350,9 @@ class TasksController extends Controller
         }
 
         if ($request->bulk_option) {
-          
-          
-      
+
+
+
             if ($request->bulk_option == 'trash' || $request->bulk_option == 'delete') {
 
                 foreach ($request->items as $item) {
