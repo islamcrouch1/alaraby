@@ -106,6 +106,7 @@ class UsersController extends Controller
             $profile = $request->profile->hashName();
         }
 
+
         $user = User::create([
             'name' => $request['name'],
             'email' => $request['email'],
@@ -116,9 +117,24 @@ class UsersController extends Controller
         ]);
 
 
+
+
+
         if ($request->role == 'tech') {
             $user->attachRoles([$request['role']]);
         } else {
+
+            $role = Role::where('name', 'administrator')->first();
+
+            if (!$role) {
+                $role = Role::create([
+                    'name' => 'administrator',
+                    'display_name' => 'administrator',
+                    'description' => 'administrator',
+                ]);
+            }
+
+
             $user->attachRoles(['administrator', $request['role']]);
         }
 

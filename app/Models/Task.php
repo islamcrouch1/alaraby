@@ -44,8 +44,10 @@ class Task extends Model
     public function scopeWhenSearch($query, $search)
     {
         return $query->when($search, function ($q) use ($search) {
-            return $q->where('name_ar', 'like', "%$search%")
-                ->orWhere('name_en', 'like', "%$search%");
+            return $q->where('client_name', 'like', "%$search%")
+                ->orWhere('client_phone', 'like', "%$search%")
+                ->orWhere('service_number', 'like', "%$search%")
+                ->orWhere('address', 'like', "%$search%");
         });
     }
 
