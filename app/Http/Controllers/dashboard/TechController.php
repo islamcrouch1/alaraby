@@ -25,8 +25,8 @@ class TechController extends Controller
     {
         $date = Carbon::now();
         $tasks = Task::where('user_id', Auth::id())
-            ->whereDate('end_date', '>=', $date)
-            ->whereDate('task_date', '<=',  $date)
+            // ->whereDate('end_date', '>=', $date)
+            // ->whereDate('task_date', '<=',  $date)
             ->latest()->paginate();
         return view('dashboard.tech.index', compact('tasks'));
     }

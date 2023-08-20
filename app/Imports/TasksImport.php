@@ -40,26 +40,23 @@ class TasksImport implements
     public function rules(): array
     {
         return [
-            'client_name' => "required|string|max:255",
+            'central' => "required|string",
+            'compound' => "required|string",
             'client_phone' => "required|numeric",
             'service_number' => "required|numeric_or_string|unique:tasks",
+            'client_name' => "required|string|max:255",
             'address' => "required|string|max:255",
-            'compound' => "required|string",
-            'central' => "required|string",
-            'tech_name' => "required|string",
             // 'task_date' => "required|numeric_or_string",
-
-
-            'type' => "nullable|string",
-            'db' => "nullable|numeric",
-            'box' => "nullable|numeric_or_string",
             'cab' => "nullable|numeric_or_string",
+            'box' => "nullable|numeric_or_string",
+            'db' => "nullable|numeric",
+            'type' => "nullable|string",
+            'comment' => "nullable|string",
+            'connectors' => "nullable|numeric_or_string",
             'cable_length' => "nullable|numeric",
             'cable_type' => "nullable|string",
-            'connectors' => "nullable|numeric_or_string",
             'face_split' => "nullable|numeric",
-            'comment' => "nullable|string",
-
+            'tech_name' => "required|string",
 
         ];
     }
@@ -75,26 +72,23 @@ class TasksImport implements
         foreach ($rows as $row) {
 
             $validator = Validator::make($row->toArray(), [
-                'client_name' => "required|string|max:255",
-                'client_phone' => "required|numeric",
-                'service_number' => "required|numeric_or_string|unique:tasks",
-                'address' => "required|string|max:255",
-                'compound' => "required|string",
                 'central' => "required|string",
-                'tech_name' => "required|string",
-                // 'task_date' => "required|numeric_or_string",
-
-
-                'type' => "nullable|numeric_or_string",
-                'db' => "nullable|numeric",
-                'box' => "nullable|numeric_or_string",
-                'cab' => "nullable|numeric_or_string",
-                'cable_length' => "nullable|numeric",
-                'cable_type' => "nullable|numeric_or_string",
-                'connectors' => "nullable|numeric_or_string",
-                'face_split' => "nullable|numeric",
-                'comment' => "nullable|string",
-
+            'compound' => "required|string",
+            'client_phone' => "required|numeric",
+            'service_number' => "required|numeric_or_string|unique:tasks",
+            'client_name' => "required|string|max:255",
+            'address' => "required|string|max:255",
+            // 'task_date' => "required|numeric_or_string",
+            'cab' => "nullable|numeric_or_string",
+            'box' => "nullable|numeric_or_string",
+            'db' => "nullable|numeric",
+            'type' => "nullable|string",
+            'comment' => "nullable|string",
+            'connectors' => "nullable|numeric_or_string",
+            'cable_length' => "nullable|numeric",
+            'cable_type' => "nullable|string",
+            'face_split' => "nullable|numeric",
+            'tech_name' => "required|string",
 
             ])->validate();
 
@@ -159,16 +153,15 @@ class TasksImport implements
 
 
             $task = Task::create([
-                'client_name' => $row['client_name'],
+                'central_id' => $central_id,
+                'compound_id' => $compound_id,
                 'client_phone' => $row['client_phone'],
                 'service_number' => $row['service_number'],
+                'client_name' => $row['client_name'],
                 'address' => $row['address'],
-                'compound_id' => $compound_id,
                 'user_id' => $user_id,
-                'central_id' => $central_id,
                 'task_date' => $task_date,
                 'end_date' => $end_date,
-
                 'type' => isset($row['type']) ? $row['type'] : null,
                 'db' => isset($row['db']) ? $row['db'] : null,
                 'box' => isset($row['box']) ? $row['box'] : null,
